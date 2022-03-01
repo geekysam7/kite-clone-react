@@ -1,0 +1,36 @@
+.buy,
+.sell {
+  padding: 3px 5px;
+  font-size: small;
+  text-align: left;
+}
+
+.buy {
+  color: var(--color-havelock-blue);
+  background-color: rgba(65, 132, 243, 0.1);
+}
+
+.sell {
+  color: var(--color-caranation-red);
+  background-color: rgba(223, 81, 76, 0.1);
+}
+
+.buy-button,
+.sell-button {
+  display: none;
+  padding: 7px;
+}
+
+.buy-button {
+  background-color: var(--color-havelock-blue);
+  color: white;
+  border: 1px solid var(--color-havelock-blue);
+  margin-right: 7px;
+}
+
+.sell-button {
+  background-color: var(--color-solid-amber);
+  color: white;
+  border: 1px solid var(--color-solid-amber);
+  margin-right: 7px;
+}

@@ -1,0 +1,17 @@
+/* container  */
+
+.container-left {
+  display: flex;
+  position: relative;
+  flex: 0 0 400px;
+  height: 100%;
+  max-height: calc(100vh - 60px);
+  box-shadow: 0 0 5px 0 rgba(var(--color-border-5--rgb), 0.1);
+  border-left: 1px solid var(--color-border-default);
+}
+
+.container-right {
+  overflow: scroll;
+  width: 100%;
+  flex-grow: 1;
+}

@@ -1,0 +1,40 @@
+[data-theme="dark"] {
+  --main-background: black;
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+}
+
+.text-green {
+  color: var(--color-text-8);
+}
+
+.text-red {
+  color: var(--color-text-7);
+}
+
+.text-blue {
+  color: var(--color-lochmara-blue);
+}
+
+.text-orange {
+  color: var(--color-solid-amber);
+}
+
+.bg-blue {
+  background-color: var(--color-lochmara-blue);
+  color: white;
+  border: 2px solid var(--color-lochmara-blue);
+}
+
+.bg-white {
+  background-color: white;
+  color: var(--color-text-1);
+  border: 2px solid var(--color-alto-grey);
+}
+
+.bg-orange {
+  background-color: var(--color-solid-amber);
+  border: 2px solid var(--color-solid-amber);
+  color: white;
+}

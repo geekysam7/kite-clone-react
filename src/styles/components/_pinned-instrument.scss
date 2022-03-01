@@ -1,0 +1,23 @@
+.pinned-instrument {
+  line-height: 0.75;
+  font-size: small;
+  font-weight: 200;
+  padding-right: 20px;
+}
+
+.pinned-instrument--caption {
+  font-weight: 600;
+}
+
+.pinned-instrument--value {
+  font-weight: 600;
+  font-size: smaller;
+  padding: 0 3px;
+  color: var(--color-text-10);
+}
+
+.pinned-instrument--percentage,
+.pinned-instrument--change {
+  font-size: smaller;
+  color: var(--color-text-1);
+}

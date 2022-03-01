@@ -1,0 +1,75 @@
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  & .container {
+    display: flex;
+    padding-top: 60px;
+    width: 100%;
+    background-color: var(--color-bg-default);
+    max-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  & .wrapper {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    max-width: 1380px;
+  }
+}
+
+.label {
+  color: var(--color-bg-2);
+  display: block;
+  padding: 10px 0;
+}
+
+.dropdown {
+  font-size: small;
+  cursor: pointer;
+}
+
+.page-content--transactions {
+  width: 50%;
+}
+
+.page-content--portfolio {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+}
+
+.greeting {
+  font-size: xx-large;
+  display: flex;
+  font-weight: 300;
+  color: var(--color-text-default);
+}
+
+.hidden {
+  display: none;
+}
+
+#sell-form .transaction-window--header {
+  background-color: var(--color-solid-amber);
+}
+
+.heading {
+  font-size: x-large;
+  padding: 10px 0;
+}
+
+.margin,
+.investment {
+  color: var(--color-text-1);
+}
+
+.time {
+  padding-left: 10px;
+}

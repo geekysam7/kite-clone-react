@@ -1,0 +1,69 @@
+.instruments {
+  padding-bottom: 40px;
+
+  &-item {
+    display: flex;
+    position: relative;
+    width: 100%;
+    padding: 13px 15px;
+    align-items: center;
+    font-weight: 200;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--color-border-1);
+    font-size: small;
+
+    &--options {
+      display: none;
+      position: absolute;
+      right: 0;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      opacity: 0.6;
+    }
+
+    &:hover {
+      & .instruments-item--options,
+      & .buy-button,
+      & .sell-button {
+        display: flex;
+      }
+    }
+
+    &:nth-last-child(1) {
+      border-bottom: none;
+    }
+
+    &--caption {
+      flex: 1;
+      width: 100%;
+      justify-content: flex-start;
+      align-items: center;
+      display: flex;
+      font-weight: 300;
+    }
+
+    &--change {
+      color: var(--color-text-1);
+    }
+
+    &--arrow {
+      padding-left: 10px;
+      opacity: 0.4;
+      font-size: 0.7rem;
+    }
+
+    &--value {
+      min-width: 60px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+
+.change-percentage {
+  padding-left: 3px;
+  color: var(--color-text-1);
+}
