@@ -28,6 +28,31 @@ const evaluatePendingTransactions = async (state) => {
   return state;
 };
 
+//time lies between 00:00:00 to 06:30:00 or 17:30:00 to 00:00:00
+const showMaintainanceAlert = (start, end) => {
+  const t = new Date();
+  const startTime = (start ? start : "17:30:00").split(":");
+  const endTime = (end ? end : "06:30:00").split(":");
+
+  const startDate = new Date(t.getTime());
+  startDate.setHours(startTime[0]);
+  startDate.setMinutes(startTime[1]);
+  startDate.setSeconds(startTime[2]);
+
+  const endDate = new Date(t.getTime());
+  endDate.setHours(endTime[0]);
+  endDate.setMinutes(endTime[1]);
+  endDate.setSeconds(endTime[2]);
+
+  const midNight = new Date(t.getTime());
+  midNight.setHours(0, 0, 0, 0);
+
+  const nextMidNight = new Date(t.getTime());
+  nextMidNight.setHours(24, 0, 0, 0);
+
+  return (t > startDate && t < nextMidNight) || (t > midNight && t < endDate);
+};
+
 export {
   floatParser,
   flattenArray,
@@ -35,4 +60,5 @@ export {
   jsonResponse,
   errorResponse,
   evaluatePendingTransactions,
+  showMaintainanceAlert,
 };

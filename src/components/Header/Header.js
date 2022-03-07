@@ -1,4 +1,7 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
+const navLinkStyle = ({ isActive }) => (isActive ? "nav-link--active" : "");
 
 export default function Header() {
   return (
@@ -23,7 +26,35 @@ export default function Header() {
             <img src="/images/kite.png" alt="Kite logo" />
           </a>
           <div className="app-nav"></div>
-          <div className="right-nav"></div>
+          <nav className="right-nav">
+            <ul>
+              <li>
+                <NavLink to="dashboard" className={navLinkStyle}>
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="orders" className={navLinkStyle}>
+                  Orders
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="holdings" className={navLinkStyle}>
+                  Holdings
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="funds" className={navLinkStyle}>
+                  Funds
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="profile" className={navLinkStyle}>
+                  Profile
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>

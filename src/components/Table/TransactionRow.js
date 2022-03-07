@@ -9,11 +9,13 @@ export default function TransactionRow({ row: transaction }) {
     <>
       <td>{transaction.symbol}</td>
       <td>
-        <span class="date">{date}</span>
-        <span class="time">{time}</span>
+        <span className="date">{date}</span>
+        <span className="time">{time}</span>
       </td>
       <td>
-        <span class={transaction.type}>{transaction.type.toUpperCase()}</span>
+        <span className={transaction.type}>
+          {transaction.type.toUpperCase()}
+        </span>
       </td>
       <td>{transaction.quantity}</td>
       <td>{transaction.triggerPrice}</td>

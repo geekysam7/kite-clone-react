@@ -1,11 +1,13 @@
 import { flattenArray, floatParser } from "./utils/functions";
 
 function reducer(state, action) {
-  let payload = action.payload;
+  let { type, payload } = action;
 
-  console.log(action);
+  // console.log(action);
 
-  switch (action.type) {
+  switch (type) {
+    case "login":
+      return { ...state, userName: payload.userName, user: true };
     case "increment":
       return { ...state, count: state.count + 1 };
     case "decrement":
@@ -15,12 +17,15 @@ function reducer(state, action) {
         state.userBalance.margin >=
         payload.quantity * floatParser(payload.triggerPrice)
       ) {
-        state.pendingTransactions.push({
-          ...payload,
-          timestamp: new Date().getTime(),
-        });
+        const pendingTransactions = [
+          ...state.pendingTransactions,
+          {
+            ...payload,
+            timestamp: new Date().getTime(),
+          },
+        ];
 
-        state.userBalance = {
+        const userBalance = {
           ...state.userBalance,
           margin:
             state.userBalance.margin -
@@ -29,27 +34,37 @@ function reducer(state, action) {
             state.userBalance.investment +
             Number(payload.quantity) * floatParser(payload.triggerPrice),
         };
+
+        return { ...state, pendingTransactions, userBalance };
       }
-      return { ...state };
+      return state;
     case "sell":
       if (
         state.userStocks[payload.symbol] &&
         state.userStocks[payload.symbol].quantity >= payload.quantity
       ) {
         //stocks can be sold.
-        state.pendingTransactions.push({
-          ...payload,
-          timestamp: new Date().getTime(),
-        });
+
+        const pendingTransactions = [
+          ...state.pendingTransactions,
+          {
+            ...payload,
+            timestamp: new Date().getTime(),
+          },
+        ];
+
+        return { ...state, pendingTransactions };
       }
-      return { ...state };
+      return state;
     case "evaluate-pending-transactions":
-      let flattenPendingTransaction = flattenArray(state.pendingTransactions);
       let pendingTransactions = [];
       let completedTransactions = [];
 
+      let userBalance = { ...state.userBalance };
+      let userStocks = { ...state.userStocks };
+
       const nifty50 = flattenArray(payload.data);
-      console.log(flattenPendingTransaction);
+
       state.pendingTransactions.forEach((transaction) => {
         let currentTransaction = nifty50[transaction.symbol];
 
@@ -61,7 +76,7 @@ function reducer(state, action) {
             completedTransactions.push(transaction);
 
             let currentInstrumentState = {};
-            let previousInstrumentState = state.userStocks[transaction.symbol];
+            let previousInstrumentState = userStocks[transaction.symbol];
             if (previousInstrumentState) {
               let quantity =
                 Number(previousInstrumentState.quantity) +
@@ -85,7 +100,7 @@ function reducer(state, action) {
               };
             }
 
-            state.userStocks[transaction.symbol] = currentInstrumentState;
+            userStocks[transaction.symbol] = currentInstrumentState;
           } else if (
             transaction.type === "sell" &&
             floatParser(transaction.triggerPrice) <= currentTransaction.ltP
@@ -93,7 +108,7 @@ function reducer(state, action) {
             completedTransactions.push(transaction);
 
             let currentInstrumentState = null;
-            let previousInstrumentState = state.userStocks[transaction.symbol]; //guaranteed to be present.
+            let previousInstrumentState = userStocks[transaction.symbol]; //guaranteed to be present.
 
             if (previousInstrumentState) {
               //handle margin
@@ -116,19 +131,19 @@ function reducer(state, action) {
                 Number(transaction.quantity) *
                 floatParser(transaction.triggerPrice);
 
-              state.userBalance = {
-                ...state.userBalance,
-                margin: state.userBalance.margin + sellingPrice,
+              userBalance = {
+                ...userBalance,
+                margin: userBalance.margin + sellingPrice,
                 investment:
-                  state.userBalance.investment - sellingPrice > 0
-                    ? state.userBalance.investment - sellingPrice
+                  userBalance.investment - sellingPrice > 0
+                    ? userBalance.investment - sellingPrice
                     : 0,
               };
 
               if (currentInstrumentState) {
-                state.userStocks[transaction.symbol] = currentInstrumentState;
+                userStocks[transaction.symbol] = currentInstrumentState;
               } else {
-                delete state.userStocks[transaction.symbol];
+                delete userStocks[transaction.symbol];
               }
             }
           } else {
@@ -137,13 +152,21 @@ function reducer(state, action) {
         }
       });
 
-      state.pendingTransactions = pendingTransactions;
-      state.completedTransactions = [
+      console.log("PENDING", pendingTransactions);
+      console.log("COMPLETED", completedTransactions);
+
+      completedTransactions = [
         ...state.completedTransactions,
         ...completedTransactions,
       ];
 
-      return { ...state };
+      return {
+        ...state,
+        pendingTransactions,
+        completedTransactions,
+        userBalance,
+        userStocks,
+      };
     default:
       throw new Error();
   }

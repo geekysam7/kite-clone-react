@@ -22,8 +22,6 @@ export default function Table({
   Row,
 }) {
   let headingValues = headings.map((heading) => heading.value);
-  console.log(headingValues);
-  console.log(rows);
 
   return (
     <div className="table-container">

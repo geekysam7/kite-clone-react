@@ -8,12 +8,15 @@ export default function BuySellForm({
 }) {
   const { data, type } = transactionContainer;
   const { dispatch } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const TYPE = type === "buy" ? "Buy" : "Sell";
 
   const [quantity, setQuantity] = useState(1);
   const [triggerPrice, setTriggerPrice] = useState(floatParser(data.ltP));
   const handleSubmit = (e) => {
+    setIsLoading(true);
+
     e.preventDefault();
     dispatch({
       type,
@@ -26,6 +29,8 @@ export default function BuySellForm({
       },
     });
     setTransactionContainer(null);
+
+    setIsLoading(false);
   };
 
   return (
@@ -116,6 +121,7 @@ export default function BuySellForm({
           <button
             className={type === "buy" ? "bg-blue" : "bg-orange"}
             type="submit"
+            disabled={isLoading}
             style={{ padding: "10px 15px", width: "100px", height: "40px" }}
           >
             {TYPE}
