@@ -53,6 +53,14 @@ const showMaintainanceAlert = (start, end) => {
   return (t > startDate && t < nextMidNight) || (t > midNight && t < endDate);
 };
 
+const sortAlphabetically = (property, toggle) => (a, b) => {
+  const sortType = toggle ? 1 : -1;
+
+  if (a[property] > b[property]) return sortType;
+  if (a[property] < b[property]) return sortType * -1;
+  return 0;
+};
+
 export {
   floatParser,
   flattenArray,
@@ -61,4 +69,5 @@ export {
   errorResponse,
   evaluatePendingTransactions,
   showMaintainanceAlert,
+  sortAlphabetically,
 };

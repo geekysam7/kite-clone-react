@@ -1,4 +1,5 @@
 import React, { useReducer, createContext } from "react";
+import { useSelector } from "react-redux";
 import { Navigate, Routes, Route } from "react-router-dom";
 import RequireAuth from "./components/Auth/RequireAuth";
 import Container from "./components/Container/Container";
@@ -29,6 +30,9 @@ export const UserContext = createContext();
 
 function App() {
   const [userState, dispatch] = useReducer(reducer, initialState);
+
+  const state = useSelector((state) => state);
+  console.log(state);
 
   const isUserSignedIn = userState.user;
 

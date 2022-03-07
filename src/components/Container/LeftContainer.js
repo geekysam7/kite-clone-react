@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BuySellForm } from "..";
+import InstrumentNavigation from "../Instrument/InstrumentNavigation";
 
 const Instrument = ({ instrument, handleTransactionClick }) => {
   const color = Number(instrument.per) > 0 ? "text-green" : "text-red";
@@ -90,6 +91,7 @@ export default function LeftContainer() {
             </React.Fragment>
           ))}
         </div>
+        <InstrumentNavigation />
       </div>
       {transactionContainer && (
         <BuySellForm

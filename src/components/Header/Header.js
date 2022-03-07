@@ -1,5 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Funds from "../Funds/Funds";
+import Profile from "../Profile/Profile";
 
 const navLinkStyle = ({ isActive }) => (isActive ? "nav-link--active" : "");
 
@@ -44,14 +46,10 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="funds" className={navLinkStyle}>
-                  Funds
-                </NavLink>
+                <Funds />
               </li>
               <li>
-                <NavLink to="profile" className={navLinkStyle}>
-                  Profile
-                </NavLink>
+                <Profile />
               </li>
             </ul>
           </nav>
