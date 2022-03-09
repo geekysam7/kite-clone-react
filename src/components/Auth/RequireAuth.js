@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import { UserContext } from "../../App";
 
 function RequireAuth({ children }) {
-  const { user } = useContext(UserContext);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const location = useLocation();
 
-  if (!user.user) {
+  if (!currentUser) {
     return <Navigate to="/" state={{ from: location }} />;
   }
 

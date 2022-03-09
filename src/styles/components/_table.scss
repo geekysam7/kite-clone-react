@@ -47,10 +47,14 @@ table td {
   width: 150px;
 }
 
-td:nth-child(1),
-td:nth-child(2) {
+td {
   border-right: 1px solid var(--color-border-default);
   width: 300px;
+  height: 100%;
+}
+
+td:nth-last-child(1) {
+  border-right: none;
 }
 
 td:nth-child(1) {

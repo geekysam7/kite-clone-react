@@ -21,7 +21,7 @@
 
   &-right {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     height: 100%;
     font-weight: 200;
@@ -33,13 +33,23 @@
 
 .app .header .logo {
   height: 100%;
-  display: flex;
   justify-content: center;
   align-items: center;
   padding-left: 5px;
+  display: none;
 
   & img {
     height: 20px;
     width: auto;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .app .header .logo {
+    display: flex;
+  }
+
+  .header-right {
+    justify-content: space-between;
   }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-export default function TransactionRow({ row: transactionId }) {
+export default function PendingTransactionRow({ row: transactionId }) {
   const transactions = useSelector((state) => state.transactions.transactions);
 
   const transaction = transactions[transactionId];
@@ -23,6 +23,16 @@ export default function TransactionRow({ row: transactionId }) {
       </td>
       <td>{transaction.quantity}</td>
       <td>{transaction.parsedTriggerPrice}</td>
+      <td>
+        <div className="flex-row">
+          <button className="marketwatch-button marketwatch-button--sell">
+            C
+          </button>
+          <button className="marketwatch-button marketwatch-button--modify">
+            M
+          </button>
+        </div>
+      </td>
     </>
   );
 }

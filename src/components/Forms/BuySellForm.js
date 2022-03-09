@@ -1,5 +1,9 @@
-import React, { useState, useContext } from "react";
-import { UserContext } from "../../App";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  buyInstrument,
+  sellInstrument,
+} from "../../redux/transaction/transaction.action";
 import { floatParser } from "../../utils/functions";
 
 export default function BuySellForm({
@@ -7,27 +11,58 @@ export default function BuySellForm({
   setTransactionContainer,
 }) {
   const { data, type } = transactionContainer;
-  const { dispatch } = useContext(UserContext);
+
+  const portfolioStocks = useSelector((state) => state.user.portfolioStocks);
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   const TYPE = type === "buy" ? "Buy" : "Sell";
 
   const [quantity, setQuantity] = useState(1);
-  const [triggerPrice, setTriggerPrice] = useState(floatParser(data.ltP));
+  const [triggerPrice, setTriggerPrice] = useState("");
+
+  useEffect(() => {
+    setTriggerPrice(floatParser(data.ltP));
+  }, [data]);
+
+  console.log("TRIGGEr", data.ltP, triggerPrice);
   const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //prevent selling more stocks then present.
+    if (type === "sell") {
+      if (
+        !portfolioStocks[data.id] ||
+        quantity > portfolioStocks[data.id].quantity
+      )
+        return;
+    }
+
     setIsLoading(true);
 
-    e.preventDefault();
-    dispatch({
-      type,
-      payload: {
-        type,
-        triggerPrice,
-        quantity,
-        symbol: data.symbol,
-        ltP: data.ltP,
-      },
-    });
+    if (type === "buy") {
+      dispatch(
+        buyInstrument({
+          instrumentId: data.id,
+          symbol: data.symbol,
+          quantity: Number(quantity),
+          triggerPrice: Number(triggerPrice),
+          type,
+        })
+      );
+    }
+
+    if (type === "sell") {
+      dispatch(
+        sellInstrument({
+          instrumentId: data.id,
+          symbol: data.symbol,
+          quantity,
+          triggerPrice: Number(triggerPrice),
+          type,
+        })
+      );
+    }
     setTransactionContainer(null);
 
     setIsLoading(false);

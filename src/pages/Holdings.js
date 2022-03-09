@@ -1,28 +1,39 @@
-import React, { useContext } from "react";
-import { UserContext } from "../App";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Table } from "../components";
+import PortfolioRow from "../components/Table/PortfolioRow";
 import { portfolioHeaders } from "../utils/headers";
 
 function Holdings() {
-  const { user } = useContext(UserContext);
+  const { balance, portfolioStocks, portfolioStocksById } = useSelector(
+    (state) => state.user
+  );
+
+  console.log(balance);
+
+  let investment = portfolioStocksById.reduce(
+    (acc, item) =>
+      Number(portfolioStocks[item].avgPrice) * portfolioStocks[item].quantity +
+      acc,
+    0
+  );
+
+  investment = investment ? investment.toFixed(2) : "0";
 
   return (
     <div className="page-content--portfolio">
       <div className="greeting">Portfolio</div>
       <div className="heading">
-        <span className="margin">
-          Margin : ₹{user.userBalance.margin.toFixed(2)}
-        </span>
+        <span className="margin">Margin : ₹{balance.margin.toFixed(2)}</span>
         <span style={{ paddingLeft: "10px" }} className="investment">
-          Investment : ₹{user.userBalance.investment.toFixed(2)}
+          Investment : ₹{investment}
         </span>
       </div>
       <div className="portfolio">
         <Table
           headings={portfolioHeaders}
-          rows={Object.keys(user.userStocks).map((transaction) => {
-            return user.userStocks[transaction];
-          })}
+          rows={portfolioStocksById}
+          Row={PortfolioRow}
         />
       </div>
     </div>

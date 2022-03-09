@@ -1,7 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-function Modal({ show, close, title, children, closeButton, submitButton }) {
+function Modal({
+  show,
+  close,
+  title,
+  children,
+  closeButton,
+  submitButton,
+  handleSubmit,
+  isLoading,
+}) {
   const closeModal = () => close();
 
   return ReactDOM.createPortal(
@@ -14,12 +23,23 @@ function Modal({ show, close, title, children, closeButton, submitButton }) {
           <main className="modal_content">{children}</main>
           <footer className="modal_footer">
             {closeButton && (
-              <button className="modal-close" onClick={closeModal}>
+              <button
+                disabled={!!isLoading}
+                className="modal-close"
+                onClick={closeModal}
+              >
                 {closeButton}
               </button>
             )}
-
-            {submitButton && <button className="submit">{submitButton}</button>}
+            {submitButton && (
+              <button
+                disabled={!!isLoading}
+                className="submit"
+                onClick={handleSubmit}
+              >
+                {isLoading ? <div className="loader"></div> : submitButton}
+              </button>
+            )}
           </footer>
         </div>
       </div>

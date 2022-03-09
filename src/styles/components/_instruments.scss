@@ -1,5 +1,17 @@
 .instruments {
-  padding-bottom: 40px;
+  margin: 40px 0;
+
+  &-lists {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &--gear {
+      padding: 4px 0;
+      padding-right: 10px;
+      cursor: pointer;
+    }
+  }
 
   &-item {
     display: flex;
@@ -19,8 +31,7 @@
       width: 100%;
       justify-content: center;
       align-items: center;
-      background-color: white;
-      opacity: 0.6;
+      opacity: 0.9;
     }
 
     &:hover {

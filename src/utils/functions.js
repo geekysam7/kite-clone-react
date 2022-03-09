@@ -61,6 +61,10 @@ const sortAlphabetically = (property, toggle) => (a, b) => {
   return 0;
 };
 
+const setTimeoutPromise = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export {
   floatParser,
   flattenArray,
@@ -70,4 +74,5 @@ export {
   evaluatePendingTransactions,
   showMaintainanceAlert,
   sortAlphabetically,
+  setTimeoutPromise,
 };

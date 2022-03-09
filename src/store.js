@@ -6,6 +6,10 @@ function reducer(state, action) {
   // console.log(action);
 
   switch (type) {
+    case "add-fund":
+      const userB = { ...state.userBalance };
+      userB.margin += payload;
+      return { ...state, userBalance: userB };
     case "login":
       return { ...state, userName: payload.userName, user: true };
     case "increment":

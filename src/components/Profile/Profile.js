@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../App";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Profile() {
-  const { user } = useContext(UserContext);
+  const user = useSelector((state) => state.user.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const initials = () => {

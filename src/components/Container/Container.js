@@ -1,11 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { LeftContainer, RightContainer, MainContainer } from "..";
-import { UserContext } from "../../App";
+import { handleCompletedTransactions } from "../../redux/transaction/transaction.action";
+import { floatParser } from "../../utils/functions";
 import Header from "../Header/Header";
 
 function Container() {
-  const { user: userState, dispatch } = useContext(UserContext);
+  const { transactions, transactionsById } = useSelector(
+    (state) => state.transactions
+  );
+  const market = useSelector((state) => state.market.market);
+  const dispatch = useDispatch();
 
   const defaultTheme = window.matchMedia(
     "(prefers-color-scheme: dark)"
@@ -26,13 +32,32 @@ function Container() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (userState.pendingTransactions.length) {
-        const mockAPI = async () => {
-          const response = await fetch("mock/indexStocks.json");
-          const res = await response.json();
-          dispatch({ type: "evaluate-pending-transactions", payload: res });
-        };
-        mockAPI();
+      let pendingTransactions = transactionsById.filter(
+        (item) => transactions[item].status === "pending"
+      );
+
+      if (pendingTransactions.length) {
+        pendingTransactions.forEach((transactionId) => {
+          let transaction = transactions[transactionId];
+
+          if (market[transaction.instrumentId]) {
+            if (
+              transaction.type === "sell" &&
+              transaction.parsedTriggerPrice <=
+                floatParser(market[transaction.instrumentId].ltP)
+            ) {
+              dispatch(handleCompletedTransactions(transaction));
+            }
+
+            if (
+              transaction.type === "buy" &&
+              transaction.parsedTriggerPrice >=
+                floatParser(market[transaction.instrumentId].ltP)
+            ) {
+              dispatch(handleCompletedTransactions(transaction));
+            }
+          }
+        });
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -40,7 +65,7 @@ function Container() {
 
   return (
     <div className="app" data-theme={theme}>
-      <Header />
+      <Header switchTheme={switchTheme} />
       <MainContainer>
         <LeftContainer />
         <Routes>

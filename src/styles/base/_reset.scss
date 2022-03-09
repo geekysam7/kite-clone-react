@@ -10,3 +10,8 @@
   color: var(--color-text-default);
   background-color: var(--color-bg-body);
 }
+
+input:focus,
+textarea:focus {
+  outline: none;
+}

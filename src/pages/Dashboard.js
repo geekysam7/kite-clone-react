@@ -1,11 +1,25 @@
-import React, { useContext } from "react";
-import { UserContext } from "../App";
-import { transactionHeaders } from "../utils/headers";
+import React from "react";
+import { useSelector } from "react-redux";
+import {
+  pendingTransactionHeaders,
+  transactionHeaders,
+} from "../utils/headers";
 import Table from "../components/Table/Table";
 import TransactionRow from "../components/Table/TransactionRow";
+import PendingTransactionRow from "../components/Table/PendingTransactionRow";
 
 function Dashboard() {
-  const { user } = useContext(UserContext);
+  const user = useSelector((state) => state.user.currentUser);
+  const { transactionsById, transactions } = useSelector(
+    (state) => state.transactions
+  );
+
+  const pendingTransactions = transactionsById.filter(
+    (item) => transactions[item].status === "pending"
+  );
+  const completedTransactions = transactionsById.filter(
+    (item) => transactions[item].status === "completed"
+  );
 
   return (
     <div className="page-content--transactions">
@@ -13,14 +27,14 @@ function Dashboard() {
       <div className="heading">Completed Transactions</div>
       <Table
         headings={transactionHeaders}
-        rows={user.completedTransactions}
+        rows={completedTransactions}
         Row={TransactionRow}
       />
       <div className="heading">Pending Transactions</div>
       <Table
-        headings={transactionHeaders}
-        rows={user.pendingTransactions}
-        Row={TransactionRow}
+        headings={pendingTransactionHeaders}
+        rows={pendingTransactions}
+        Row={PendingTransactionRow}
       />
     </div>
   );

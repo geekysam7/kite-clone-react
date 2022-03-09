@@ -1,9 +1,17 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import {
+  faBook,
+  faBookmark,
+  faCompass,
+  faSuitcase,
+} from "@fortawesome/fontawesome-free-solid";
 import Funds from "../Funds/Funds";
 import Profile from "../Profile/Profile";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const navLinkStyle = ({ isActive }) => (isActive ? "nav-link--active" : "");
+const navLinkStyle = ({ isActive }) =>
+  isActive ? "nav-link--active" : "nav-link--hover";
 
 export default function Header() {
   return (
@@ -24,34 +32,50 @@ export default function Header() {
           </div>
         </div>
         <div className="header-right">
-          <a href="/dashboard" className="logo">
+          <Link to="/dashboard" className="logo">
             <img src="/images/kite.png" alt="Kite logo" />
-          </a>
+          </Link>
           <div className="app-nav"></div>
           <nav className="right-nav">
             <ul>
               <li>
+                <NavLink to="marketwatch" className={navLinkStyle}>
+                  <span className="mobile marketwatch">
+                    <FontAwesomeIcon icon={faBookmark} />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
                 <NavLink to="dashboard" className={navLinkStyle}>
-                  Dashboard
+                  <span className="desktop">Dashboard</span>
+                  <span className="mobile">
+                    <FontAwesomeIcon icon={faCompass} />
+                  </span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="orders" className={navLinkStyle}>
-                  Orders
+                  <span className="desktop">Orders</span>
+                  <span className="mobile">
+                    <FontAwesomeIcon icon={faBook} />
+                  </span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="holdings" className={navLinkStyle}>
-                  Holdings
+                  <span className="desktop">Holdings</span>
+                  <span className="mobile">
+                    <FontAwesomeIcon icon={faSuitcase} />
+                  </span>
                 </NavLink>
               </li>
               <li>
                 <Funds />
               </li>
-              <li>
-                <Profile />
-              </li>
             </ul>
+            <div>
+              <Profile />
+            </div>
           </nav>
         </div>
       </div>

@@ -1,13 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../App";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import AuthContainer from "../components/Container/AuthContainer";
+import { setCurrentUser } from "../redux/user/user.action";
 import { showMaintainanceAlert } from "../utils/functions";
 
+const passwordConditionCheck = (password) =>
+  password.length < 6 || password.length > 18;
+const userIdConditionCheck = (userId) =>
+  userId.length < 6 || userId.length > 25;
+
 function SignIn() {
-  const { dispatch } = useContext(UserContext);
+  const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(null);
 
   const handleSubmit = (e) => {
@@ -15,11 +21,11 @@ function SignIn() {
 
     let error = {};
 
-    if (userId.length < 6 || userId.length > 25) {
+    if (userIdConditionCheck(userId)) {
       error.user = "User Id should be minimum 6 characters.";
     }
 
-    if (password.length < 6 || userId.length > 18) {
+    if (passwordConditionCheck(password)) {
       error.password = "Password should be minimum 6 characters";
     }
 
@@ -32,18 +38,19 @@ function SignIn() {
 
     //dispatch;
 
-    dispatch({
-      type: "login",
-      payload: {
-        userName: userId,
-      },
-    });
+    dispatch(
+      setCurrentUser({
+        currentUser: {
+          userName: userId,
+        },
+      })
+    );
 
     setIsLoading(false);
   };
 
   useEffect(() => {
-    if (error && error.user && userId.length) {
+    if (error.user && userIdConditionCheck(userId)) {
       let newError = { ...error };
       delete newError.user;
       setError(newError);
@@ -51,7 +58,7 @@ function SignIn() {
   }, [userId]);
 
   useEffect(() => {
-    if (error && error.password && password.length) {
+    if (error.password && passwordConditionCheck(password)) {
       let newError = { ...error };
       delete newError.password;
       setError(newError);
