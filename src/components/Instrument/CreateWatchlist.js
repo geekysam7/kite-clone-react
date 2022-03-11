@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setModalType } from "../../redux/uistate/uistate.action";
 import {
   createWatchlist,
   handleItemInTransaction,
-  toggleWatchlistModalState,
 } from "../../redux/watchlist/watchlist.action";
 import Modal from "../Modal/Modal";
 
-function CreateWatchlist() {
-  const isWatchlistModalOpen = useSelector(
-    (state) => state.watchlist.isWatchlistModalOpen
-  );
-
+function CreateWatchlist({ show }) {
   const closeModal = () => {
-    dispatch(toggleWatchlistModalState());
+    dispatch(setModalType(""));
   };
 
   const dispatch = useDispatch();
@@ -40,7 +36,7 @@ function CreateWatchlist() {
 
   return (
     <Modal
-      show={isWatchlistModalOpen}
+      show={show}
       close={closeModal}
       submitButton={"Create"}
       handleSubmit={handleSubmit}

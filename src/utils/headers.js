@@ -22,4 +22,16 @@ const portfolioHeaders = [
   { label: "Action", value: "action" },
 ];
 
-export { transactionHeaders, portfolioHeaders, pendingTransactionHeaders };
+const constantsMapping = {
+  BUY: "Buy",
+  SELL: "Sell",
+  PENDING: "Pending",
+  COMPLETED: "Completed",
+};
+
+export {
+  transactionHeaders,
+  portfolioHeaders,
+  pendingTransactionHeaders,
+  constantsMapping,
+};

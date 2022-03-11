@@ -7,20 +7,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BuySellForm } from "..";
 import { setMarketData } from "../../redux/market/market.action";
+import {
+  setModalType,
+  setTransactionState,
+} from "../../redux/uistate/uistate.action";
 import {
   addItemToWatchlist,
   handleItemInTransaction,
   removeSelectedWatchlistItem,
-  toggleWatchlistModalState,
 } from "../../redux/watchlist/watchlist.action";
 import InstrumentNavigation from "../Instrument/InstrumentNavigation";
 import NoData from "../NoData/NoData";
 
-const Instrument = ({ item, handleTransactionClick }) => {
+const Instrument = ({ item }) => {
   const { market } = useSelector((state) => state.market);
 
+  //imitate a fetch request?
   let instrument = market[item];
 
   const dispatch = useDispatch();
@@ -59,13 +62,35 @@ const Instrument = ({ item, handleTransactionClick }) => {
           >
             <button
               className="marketwatch-button marketwatch-button--buy"
-              onClick={() => handleTransactionClick("buy", instrument)}
+              onClick={() =>
+                dispatch(
+                  setTransactionState({
+                    current: {
+                      instrumentId: instrument.id,
+                      type: "buy",
+                      ltP: instrument.ltP,
+                      symbol: instrument.symbol,
+                    },
+                  })
+                )
+              }
             >
               B
             </button>
             <button
               className="marketwatch-button marketwatch-button--sell"
-              onClick={() => handleTransactionClick("sell", instrument)}
+              onClick={() =>
+                dispatch(
+                  setTransactionState({
+                    current: {
+                      instrumentId: instrument.id,
+                      type: "sell",
+                      ltP: instrument.ltP,
+                      symbol: instrument.symbol,
+                    },
+                  })
+                )
+              }
             >
               S
             </button>
@@ -128,16 +153,9 @@ export default function LeftContainer() {
     setFilteredList(fL);
   };
 
-  const [transactionContainer, setTransactionContainer] = useState(null);
-  const handleTransactionClick = (type, instrument) =>
-    setTransactionContainer({
-      type,
-      data: { ...instrument },
-    });
-
   const handleWatchlistAddition = (id) => {
     if (selected === 0) {
-      dispatch(toggleWatchlistModalState());
+      dispatch(setModalType("WATCHLIST"));
       dispatch(handleItemInTransaction({ id }));
     } else {
       dispatch(addItemToWatchlist(id));
@@ -145,69 +163,62 @@ export default function LeftContainer() {
   };
 
   return (
-    <div className="container-left">
-      <div className="marketwatch-sidebar">
-        <div className="marketsearch">
-          <input
-            type="text"
-            id="marketsearch-input"
-            className="marketsearch-input"
-            value={marketSearch}
-            onChange={handleInstrumentSearch}
-            placeholder="Search eg: Infy bse, nifty fut weekly, gold mcs"
-          />
-          <div className="marketsearch-total">7/50</div>
-        </div>
-
-        {filteredList.length ? (
-          <div className="marketsearch-results">
-            <div className="marketsearch-results--instruments">
-              {filteredList.map((instrument) => {
-                return (
-                  <div
-                    key={instrument.symbol}
-                    className="marketsearch-results--instrument-item"
-                  >
-                    <div>{instrument.symbol}</div>
-                    <button
-                      className="marketwatch-button marketwatch-button--add"
-                      // data-balloon="Add"
-                      onClick={() => handleWatchlistAddition(instrument.id)}
-                    >
-                      +
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ) : null}
-        <div className="instruments">
-          {marketWatchData.length ? (
-            marketWatchData.map((instrument) => (
-              <React.Fragment key={instrument}>
-                <Instrument
-                  item={instrument}
-                  handleTransactionClick={handleTransactionClick}
-                />
-              </React.Fragment>
-            ))
-          ) : (
-            <NoData
-              svg={"/images/marketwatch.svg"}
-              title="Nothing here"
-              body="Use the search bar to add instruments"
+    <>
+      <div className="container-left">
+        <div className="marketwatch-sidebar">
+          <div className="marketsearch">
+            <input
+              type="text"
+              id="marketsearch-input"
+              className="marketsearch-input"
+              value={marketSearch}
+              onChange={handleInstrumentSearch}
+              placeholder="Search eg: Infy bse, nifty fut weekly, gold mcs"
             />
-          )}
+            <div className="marketsearch-total">7/50</div>
+          </div>
+
+          {filteredList.length ? (
+            <div className="marketsearch-results">
+              <div className="marketsearch-results--instruments">
+                {filteredList.map((instrument) => {
+                  return (
+                    <div
+                      key={instrument.symbol}
+                      className="marketsearch-results--instrument-item"
+                    >
+                      <div>{instrument.symbol}</div>
+                      <button
+                        className="marketwatch-button marketwatch-button--add"
+                        // data-balloon="Add"
+                        onClick={() => handleWatchlistAddition(instrument.id)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+          <div className="instruments">
+            {marketWatchData.length ? (
+              marketWatchData.map((instrument) => (
+                <React.Fragment key={instrument}>
+                  <Instrument item={instrument} />
+                </React.Fragment>
+              ))
+            ) : (
+              <NoData
+                svg={"/images/marketwatch.svg"}
+                title="Nothing here"
+                body="Use the search bar to add instruments"
+              />
+            )}
+          </div>
+          <InstrumentNavigation />
         </div>
-        <InstrumentNavigation />
       </div>
-      {transactionContainer && (
-        <BuySellForm
-          transactionContainer={transactionContainer}
-          setTransactionContainer={setTransactionContainer}
-        />
-      )}
-    </div>
+    </>
   );
 }

@@ -32,10 +32,6 @@ export const createWatchlist = (item) => {
   };
 };
 
-export const toggleWatchlistModalState = () => ({
-  type: WatchlistActionTypes.TOGGLE_WATCHLIST_MODAL_STATE,
-});
-
 export const handleItemInTransaction = (payload) => ({
   type: WatchlistActionTypes.HANDLE_ITEM_IN_TRANSACTION,
   payload,

@@ -2,16 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   buyInstrument,
+  handleModifiedTransaction,
   sellInstrument,
 } from "../../redux/transaction/transaction.action";
+import { setTransactionState } from "../../redux/uistate/uistate.action";
 import { floatParser } from "../../utils/functions";
 
-export default function BuySellForm({
-  transactionContainer,
-  setTransactionContainer,
-}) {
-  const { data, type } = transactionContainer;
+export default function BuySellForm() {
+  const {
+    isModified,
+    current: { instrumentId, type, symbol, quantity: currentQuantity },
+    previous,
+  } = useSelector((state) => state.uistate.transactionState);
 
+  let ltP = useSelector((state) => state.market.market[instrumentId].ltP);
   const portfolioStocks = useSelector((state) => state.user.portfolioStocks);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -22,18 +26,59 @@ export default function BuySellForm({
   const [triggerPrice, setTriggerPrice] = useState("");
 
   useEffect(() => {
-    setTriggerPrice(floatParser(data.ltP));
-  }, [data]);
+    setTriggerPrice(floatParser(ltP));
+  }, [ltP]);
 
-  console.log("TRIGGEr", data.ltP, triggerPrice);
+  useEffect(() => {
+    setQuantity(currentQuantity || 1);
+  }, [currentQuantity]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     //prevent selling more stocks then present.
+
+    if (isModified) {
+      console.log(isModified);
+
+      if (type === "sell") {
+        if (
+          !portfolioStocks[instrumentId] ||
+          quantity >
+            portfolioStocks[instrumentId].quantity -
+              portfolioStocks[instrumentId].holdQuantity +
+              previous.quantity
+        ) {
+          return;
+        }
+      }
+
+      dispatch(
+        handleModifiedTransaction({
+          previous,
+          current: {
+            id: previous.id, //transaction id
+            instrumentId: instrumentId,
+            symbol,
+            quantity: Number(quantity),
+            triggerPrice: Number(triggerPrice),
+            parsedTriggerPrice: Number(triggerPrice),
+            type,
+          },
+        })
+      );
+
+      dispatch(setTransactionState({}));
+
+      return;
+    }
+
     if (type === "sell") {
       if (
-        !portfolioStocks[data.id] ||
-        quantity > portfolioStocks[data.id].quantity
+        !portfolioStocks[instrumentId] ||
+        quantity >
+          portfolioStocks[instrumentId].quantity -
+            portfolioStocks[instrumentId].holdQuantity
       )
         return;
     }
@@ -43,8 +88,8 @@ export default function BuySellForm({
     if (type === "buy") {
       dispatch(
         buyInstrument({
-          instrumentId: data.id,
-          symbol: data.symbol,
+          instrumentId: instrumentId,
+          symbol: symbol,
           quantity: Number(quantity),
           triggerPrice: Number(triggerPrice),
           type,
@@ -55,15 +100,17 @@ export default function BuySellForm({
     if (type === "sell") {
       dispatch(
         sellInstrument({
-          instrumentId: data.id,
-          symbol: data.symbol,
-          quantity,
+          instrumentId: instrumentId,
+          symbol: symbol,
+          quantity: Number(quantity),
           triggerPrice: Number(triggerPrice),
           type,
         })
       );
     }
-    setTransactionContainer(null);
+
+    //default state.
+    dispatch(setTransactionState({}));
 
     setIsLoading(false);
   };
@@ -78,18 +125,18 @@ export default function BuySellForm({
         <div className="transaction-window--header-left">
           <div className="flex-row">
             <div className="transaction-caption">
-              {TYPE} <span className={`${type}-symbol`}>{data.symbol}</span>
+              {TYPE} <span className={`${type}-symbol`}>{symbol}</span>
             </div>
             <div className="transaction-market">NSE</div>
             <div className="transaction-quantity">
               {" "}
-              x <span className={`${type}-quantity-top`}>1</span>Qty
+              x <span className={`${type}-quantity-top`}>{quantity}</span>Qty
             </div>
           </div>
           <div className="flex-row">
             <div className="transaction-window--header-radio">
               <span htmlFor="NSE">
-                NSE: <span className={`${type}-price-top`}>{data.ltP}</span>
+                NSE: <span className={`${type}-price-top`}>{ltP}</span>
               </span>
             </div>
           </div>
@@ -118,7 +165,7 @@ export default function BuySellForm({
             <input
               type="text"
               id={`${type}-price`}
-              value={data.ltP}
+              value={ltP}
               disabled
               placeholder="Price"
             />
@@ -145,8 +192,23 @@ export default function BuySellForm({
             style={{ paddingLeft: "5px" }}
             className={`margin ${type}-margin`}
           >
-            {data.ltP}
+            {ltP * quantity}
           </div>
+
+          {TYPE === "Sell" && (
+            <>
+              <div style={{ paddingLeft: "5px" }}>Available Quantity: </div>
+              <div
+                style={{ paddingLeft: "5px" }}
+                className={`margin ${type}-margin`}
+              >
+                {portfolioStocks[instrumentId]?.quantity
+                  ? portfolioStocks[instrumentId].quantity -
+                    portfolioStocks[instrumentId].holdQuantity
+                  : "0"}
+              </div>
+            </>
+          )}
           <div
             style={{ paddingLeft: "5px", cursor: "pointer" }}
             className="fa-solid fa-arrows-rotate text-green margin-refresh"
@@ -170,7 +232,7 @@ export default function BuySellForm({
               width: "100px",
               height: "40px",
             }}
-            onClick={() => setTransactionContainer(null)}
+            onClick={() => dispatch(setTransactionState({}))}
           >
             Cancel
           </button>

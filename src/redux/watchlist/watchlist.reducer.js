@@ -11,7 +11,6 @@ const INITIAL_STATE = {
   selected: 0,
   watchlist: {},
   watchlistByIds: [],
-  isWatchlistModalOpen: false,
 };
 
 const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -30,9 +29,6 @@ const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
         draft.watchlistByIds = watchlistByIds;
 
         if (payload.length) draft.selected = payload[0].id;
-        break;
-      case WatchlistActionTypes.TOGGLE_WATCHLIST_MODAL_STATE:
-        draft.isWatchlistModalOpen = !draft.isWatchlistModalOpen;
         break;
       case WatchlistActionTypes.HANDLE_ITEM_IN_TRANSACTION:
         if (payload.id) {

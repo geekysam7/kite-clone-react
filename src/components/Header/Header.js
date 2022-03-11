@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
-  faBook,
+  // faBook,
   faBookmark,
   faCompass,
   faSuitcase,
@@ -53,14 +53,14 @@ export default function Header() {
                   </span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="orders" className={navLinkStyle}>
                   <span className="desktop">Orders</span>
                   <span className="mobile">
                     <FontAwesomeIcon icon={faBook} />
                   </span>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink to="holdings" className={navLinkStyle}>
                   <span className="desktop">Holdings</span>

@@ -37,7 +37,6 @@ export default function Table({
     setSelectedField(field);
 
     let nRows = [...rows];
-
     nRows.sort((a, b) => {
       //check if field can be converted to number.
       let x = Number(a[field]) ? Number(a[field]) : a[field];

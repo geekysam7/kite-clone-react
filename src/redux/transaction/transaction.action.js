@@ -7,7 +7,8 @@ export const buyInstrument = (instrument) => ({
   type: TransactionActionTypes.BUY_STOCK,
   payload: {
     id: v4(),
-    timestamp: new Date().getTime(),
+    createdAt: new Date().getTime(),
+    updatedAt: new Date().getTime(),
     ...instrument,
     parsedTriggerPrice: instrument.triggerPrice,
   },
@@ -17,7 +18,8 @@ export const sellInstrument = (instrument) => ({
   type: TransactionActionTypes.SELL_STOCK,
   payload: {
     id: v4(),
-    timestamp: new Date().getTime(),
+    createdAt: new Date().getTime(),
+    updatedAt: new Date().getTime(),
     ...instrument,
     parsedTriggerPrice: instrument.triggerPrice,
   },
@@ -30,9 +32,21 @@ export const cancelPendingTransaction = (transaction) => ({
   },
 });
 
+export const handleModifiedTransaction = (transaction) => ({
+  type: TransactionActionTypes.MODIFY_TRANSACTION,
+  payload: {
+    transaction: {
+      ...transaction.current,
+      updatedAt: new Date().getTime(),
+    },
+    previousTransaction: transaction.previous,
+  },
+});
+
 export const handleCompletedTransactions = (transaction) => ({
   type: TransactionActionTypes.HANDLE_COMPLETED_TRANSACTION,
   payload: {
     transaction,
+    updatedAt: new Date().getTime(),
   },
 });

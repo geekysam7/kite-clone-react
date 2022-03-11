@@ -24,7 +24,9 @@ function Holdings() {
     <div className="page-content--portfolio">
       <div className="greeting">Portfolio</div>
       <div className="heading">
-        <span className="margin">Margin : ₹{balance.margin.toFixed(2)}</span>
+        <span className="margin">
+          Available Margin : ₹{balance.withdrawableBalance.toFixed(2)}
+        </span>
         <span style={{ paddingLeft: "10px" }} className="investment">
           Investment : ₹{investment}
         </span>

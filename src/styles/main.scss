@@ -455,3 +455,31 @@ table thead td div:hover .icon-hover {
   border: 1px solid var(--color-border-default);
   box-shadow: 1px 1px 4px var(--color-border-default);
 }
+
+.funds-lists {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.funds-lists li {
+  margin-right: 10px;
+  border-bottom: 3px solid var(--color-bg-default);
+}
+
+.funds-lists li:hover {
+  cursor: pointer;
+  color: var(--color-bg-8);
+  border-bottom: 3px solid var(--color-bg-8);
+}
+
+.funds-lists--active {
+  color: var(--color-bg-8);
+  border-bottom: 3px solid var(--color-bg-8) !important;
+}
+
+.meta-info {
+  font-size: 11px;
+  padding: 10px 0;
+}

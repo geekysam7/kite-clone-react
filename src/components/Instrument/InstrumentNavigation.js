@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setSelectedWatchlist,
-  toggleWatchlistModalState,
-} from "../../redux/watchlist/watchlist.action";
+import { setSelectedWatchlist } from "../../redux/watchlist/watchlist.action";
 import CreateWatchlist from "./CreateWatchlist";
 import { faWrench } from "@fortawesome/fontawesome-free-solid";
 import useClickOutside from "../../hooks/useClickOutside";
 import GearModal from "../Modal/GearModal";
+import { constants } from "../../utils/constants";
+import { setModalType } from "../../redux/uistate/uistate.action";
 
 function InstrumentNavigation() {
-  const { watchlistByIds, watchlist, isWatchlistModalOpen } = useSelector(
-    (state) => state.watchlist
-  );
+  const { watchlistByIds, watchlist } = useSelector((state) => state.watchlist);
+  const modalTypeOpen = useSelector((state) => state.uistate.modalTypeOpen);
   const [isGearModalOpen, setIsGearModalOpen] = useState(false);
 
   const domNode = useClickOutside(() => {
@@ -54,7 +52,7 @@ function InstrumentNavigation() {
         <div className="instruments-watchlist">
           <button
             className="instrument-button"
-            onClick={() => dispatch(toggleWatchlistModalState())}
+            onClick={() => dispatch(setModalType(constants.WATCHLIST))}
           >
             Create Watchlist
           </button>
@@ -73,7 +71,7 @@ function InstrumentNavigation() {
         </div>
       ) : null}
 
-      {isWatchlistModalOpen && <CreateWatchlist />}
+      {modalTypeOpen === constants.WATCHLIST && <CreateWatchlist show={true} />}
     </ul>
   );
 }

@@ -5,7 +5,7 @@ export default function TransactionRow({ row: transactionId }) {
   const transactions = useSelector((state) => state.transactions.transactions);
 
   const transaction = transactions[transactionId];
-  let d = new Date(transaction.timestamp);
+  let d = new Date(transaction.createdAt);
   let time = d.toLocaleTimeString();
   let date = d.toLocaleDateString();
 

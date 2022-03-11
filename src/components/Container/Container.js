@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import { LeftContainer, RightContainer, MainContainer } from "..";
+import { LeftContainer, RightContainer, MainContainer, BuySellForm } from "..";
 import { handleCompletedTransactions } from "../../redux/transaction/transaction.action";
 import { floatParser } from "../../utils/functions";
 import Header from "../Header/Header";
@@ -11,6 +11,9 @@ function Container() {
     (state) => state.transactions
   );
   const market = useSelector((state) => state.market.market);
+  const isTransactionWindowOpen = useSelector(
+    (state) => state.uistate.isTransactionWindowOpen
+  );
   const dispatch = useDispatch();
 
   const defaultTheme = window.matchMedia(
@@ -71,6 +74,7 @@ function Container() {
         <Routes>
           <Route path="/*" element={<RightContainer />} />
         </Routes>
+        {isTransactionWindowOpen && <BuySellForm />}
       </MainContainer>
     </div>
   );
