@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import useClickOutside from "../../hooks/useClickOutside";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { setMarketData } from "../../redux/market/market.action";
 import {
@@ -113,6 +114,13 @@ export default function LeftContainer() {
   const { selected, watchlist } = useSelector((state) => state.watchlist);
   const marketData = useSelector((state) => state.market.data);
   const marketWatchData = watchlist[selected]?.items || [];
+
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  const domNode = useClickOutside(() => {
+    setIsSearchModalOpen(false);
+  });
+
   //search stocks.
   //set watchlist data.
 
@@ -174,12 +182,13 @@ export default function LeftContainer() {
               value={marketSearch}
               onChange={handleInstrumentSearch}
               placeholder="Search eg: Infy bse, nifty fut weekly, gold mcs"
+              onFocus={() => setIsSearchModalOpen(true)}
             />
             <div className="marketsearch-total">7/50</div>
           </div>
 
-          {filteredList.length ? (
-            <div className="marketsearch-results">
+          {filteredList.length && isSearchModalOpen ? (
+            <div className="marketsearch-results" ref={domNode}>
               <div className="marketsearch-results--instruments">
                 {filteredList.map((instrument) => {
                   return (
