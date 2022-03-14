@@ -18,6 +18,7 @@ import {
   handleItemInTransaction,
   removeSelectedWatchlistItem,
 } from "../../redux/watchlist/watchlist.action";
+import { transactionConstants } from "../../utils/constants";
 import InstrumentNavigation from "../Instrument/InstrumentNavigation";
 import NoData from "../NoData/NoData";
 
@@ -68,7 +69,7 @@ const Instrument = ({ item }) => {
                   setTransactionState({
                     current: {
                       instrumentId: instrument.id,
-                      type: "buy",
+                      type: transactionConstants.BUY.label,
                       ltP: instrument.ltP,
                       symbol: instrument.symbol,
                     },
@@ -85,7 +86,7 @@ const Instrument = ({ item }) => {
                   setTransactionState({
                     current: {
                       instrumentId: instrument.id,
-                      type: "sell",
+                      type: transactionConstants.SELL.label,
                       ltP: instrument.ltP,
                       symbol: instrument.symbol,
                     },
@@ -197,13 +198,49 @@ export default function LeftContainer() {
                       className="marketsearch-results--instrument-item"
                     >
                       <div>{instrument.symbol}</div>
-                      <button
-                        className="marketwatch-button marketwatch-button--add"
-                        // data-balloon="Add"
-                        onClick={() => handleWatchlistAddition(instrument.id)}
-                      >
-                        +
-                      </button>
+                      <div className="markewatch-results--container">
+                        <button
+                          className="marketwatch-button marketwatch-button--buy"
+                          onClick={() =>
+                            dispatch(
+                              setTransactionState({
+                                current: {
+                                  instrumentId: instrument.id,
+                                  type: transactionConstants.BUY.label,
+                                  ltP: instrument.ltP,
+                                  symbol: instrument.symbol,
+                                },
+                              })
+                            )
+                          }
+                        >
+                          B
+                        </button>
+                        <button
+                          className="marketwatch-button marketwatch-button--sell"
+                          onClick={() =>
+                            dispatch(
+                              setTransactionState({
+                                current: {
+                                  instrumentId: instrument.id,
+                                  type: transactionConstants.SELL.label,
+                                  ltP: instrument.ltP,
+                                  symbol: instrument.symbol,
+                                },
+                              })
+                            )
+                          }
+                        >
+                          S
+                        </button>
+                        <button
+                          className="marketwatch-button marketwatch-button--add"
+                          // data-balloon="Add"
+                          onClick={() => handleWatchlistAddition(instrument.id)}
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   );
                 })}

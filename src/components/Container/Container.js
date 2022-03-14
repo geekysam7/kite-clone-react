@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { LeftContainer, RightContainer, MainContainer, BuySellForm } from "..";
 import { handleCompletedTransactions } from "../../redux/transaction/transaction.action";
+import { transactionConstants } from "../../utils/constants";
 import { floatParser } from "../../utils/functions";
 import Header from "../Header/Header";
 
@@ -36,16 +37,17 @@ function Container() {
   useEffect(() => {
     const interval = setInterval(() => {
       let pendingTransactions = transactionsById.filter(
-        (item) => transactions[item].status === "pending"
+        (item) =>
+          transactions[item].status === transactionConstants.PENDING.label
       );
 
       if (pendingTransactions.length) {
         pendingTransactions.forEach((transactionId) => {
           let transaction = transactions[transactionId];
-
+          console.log(transaction);
           if (market[transaction.instrumentId]) {
             if (
-              transaction.type === "sell" &&
+              transaction.type === transactionConstants.SELL.label &&
               transaction.parsedTriggerPrice <=
                 floatParser(market[transaction.instrumentId].ltP)
             ) {
@@ -53,7 +55,7 @@ function Container() {
             }
 
             if (
-              transaction.type === "buy" &&
+              transaction.type === transactionConstants.BUY.label &&
               transaction.parsedTriggerPrice >=
                 floatParser(market[transaction.instrumentId].ltP)
             ) {

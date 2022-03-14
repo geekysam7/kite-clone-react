@@ -3,12 +3,18 @@
 
   &-lists {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    overflow-x: scroll;
+
+    &--list {
+      display: flex;
+      width: 100%;
+      overflow-x: scroll;
+    }
 
     &--gear {
-      padding: 4px 0;
-      padding-right: 10px;
+      padding: 4px 10px;
       cursor: pointer;
     }
   }

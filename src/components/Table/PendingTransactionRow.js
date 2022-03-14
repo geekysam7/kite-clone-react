@@ -2,21 +2,20 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cancelPendingTransaction } from "../../redux/transaction/transaction.action";
 import { setTransactionState } from "../../redux/uistate/uistate.action";
+import { transactionConstants } from "../../utils/constants";
 
-export default function PendingTransactionRow({ row: transactionId }) {
+export default function PendingTransactionRow({ row: { id: transactionId } }) {
   const dispatch = useDispatch();
-  const transactions = useSelector((state) => state.transactions.transactions);
+  const transactions = useSelector((state) => state.transactions.transactions); //reading latest transaction state.
 
   const transaction = transactions[transactionId];
-
-  if (!transaction) return null;
 
   let d = new Date(transaction.createdAt);
   let time = d.toLocaleTimeString();
   let date = d.toLocaleDateString();
 
   const handleCanceledTransaction = () => {
-    if (transaction.status !== "completed") {
+    if (transaction.status !== transactionConstants.COMPLETED.label) {
       dispatch(cancelPendingTransaction(transaction));
     }
   };

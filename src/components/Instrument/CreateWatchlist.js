@@ -5,7 +5,23 @@ import {
   createWatchlist,
   handleItemInTransaction,
 } from "../../redux/watchlist/watchlist.action";
+import { appConstants } from "../../utils/constants";
 import Modal from "../Modal/Modal";
+
+export function CreateWatchlistButton() {
+  const dispatch = useDispatch();
+
+  return (
+    <div className="instruments-watchlist">
+      <button
+        className="instrument-button"
+        onClick={() => dispatch(setModalType(appConstants.WATCHLIST.label))}
+      >
+        Create Watchlist
+      </button>
+    </div>
+  );
+}
 
 function CreateWatchlist({ show }) {
   const closeModal = () => {

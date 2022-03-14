@@ -442,7 +442,7 @@ table thead td div:hover .icon-hover {
 .gear-modal {
   position: absolute;
   bottom: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   margin-right: 8px;
   width: 200px;
   right: 0;
@@ -454,6 +454,7 @@ table thead td div:hover .icon-hover {
   color: var(color-text-3);
   border: 1px solid var(--color-border-default);
   box-shadow: 1px 1px 4px var(--color-border-default);
+  animation: swing-in 0.15s;
 }
 
 .funds-lists {
@@ -482,4 +483,8 @@ table thead td div:hover .icon-hover {
 .meta-info {
   font-size: 11px;
   padding: 10px 0;
+}
+
+.markewatch-results--container {
+  display: flex;
 }

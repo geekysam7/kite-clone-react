@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalType } from "../../redux/uistate/uistate.action";
 import { addBalance, withdrawBalance } from "../../redux/user/user.action";
-import { constants } from "../../utils/constants";
+import { appConstants } from "../../utils/constants";
 import { setTimeoutPromise } from "../../utils/functions";
 import Modal from "../Modal/Modal";
 
@@ -67,14 +67,14 @@ function Funds() {
     <>
       <span
         className="cursor"
-        onClick={() => dispatch(setModalType(constants.FUNDS))}
+        onClick={() => dispatch(setModalType(appConstants.FUNDS.label))}
       >
         <span className="desktop">Funds</span>
         <span className="mobile">
           <FontAwesomeIcon icon={faCreditCard} />
         </span>
       </span>
-      {modalTypeOpen === constants.FUNDS && (
+      {modalTypeOpen === appConstants.FUNDS.label && (
         <Modal
           title="Add Funds"
           close={close}

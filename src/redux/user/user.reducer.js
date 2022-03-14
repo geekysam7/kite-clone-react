@@ -1,4 +1,5 @@
 import { produce } from "immer";
+import { transactionConstants } from "../../utils/constants";
 import { TransactionActionTypes } from "../transaction/transaction.types";
 import { UserActionTypes } from "./user.types";
 
@@ -10,6 +11,8 @@ const INITIAL_STATE = {
   },
   portfolioStocks: {},
   portfolioStocksById: [],
+  portfolioStocksOnHold: {},
+  portfolioStocksOnHoldById: [],
 };
 
 const userReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -53,10 +56,20 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
           //place stock on hold.
           draft.portfolioStocks[payload.instrumentId].holdQuantity +=
             payload.quantity;
+
+          //make transaction and holding mapping
+
+          draft.portfolioStocksOnHold[payload.id] = {
+            id: payload.id, //helpful for table.
+            instrumentId: payload.instrumentId,
+            holdQuantity: payload.quantity,
+          };
+
+          draft.portfolioStocksOnHoldById.push(payload.id);
         }
         break;
       case TransactionActionTypes.CANCEL_PENDING_TRANSACTION:
-        if (payload.transaction.type === "buy") {
+        if (payload.transaction.type === transactionConstants.BUY.label) {
           //add funds back.
           let totalPrice =
             payload.transaction.parsedTriggerPrice *
@@ -65,15 +78,22 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
         }
 
         //add quantity back.
-        if (payload.transaction.type === "sell") {
+        if (payload.transaction.type === transactionConstants.SELL.label) {
           draft.portfolioStocks[
             payload.transaction.instrumentId
           ].holdQuantity -= payload.transaction.quantity;
+
+          //remove from hold mappings
+          delete draft.portfolioStocksOnHold[payload.transaction.id];
+          draft.portfolioStocksOnHoldById =
+            draft.portfolioStocksOnHoldById.filter(
+              (id) => id !== payload.transaction.id
+            );
         }
         break;
       case TransactionActionTypes.MODIFY_TRANSACTION:
         //add unutilised funds back for buy
-        if (payload.transaction.type === "buy") {
+        if (payload.transaction.type === transactionConstants.BUY.label) {
           let oldPrice =
             payload.previousTransaction.parsedTriggerPrice *
             payload.previousTransaction.quantity;
@@ -91,7 +111,7 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
           }
         }
 
-        if (payload.transaction.type === "sell") {
+        if (payload.transaction.type === transactionConstants.SELL.label) {
           // modify stocks from portfolio.
           let previousQuantity = payload.previousTransaction.quantity;
           let currentQuantity = payload.transaction.quantity;
@@ -107,13 +127,18 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
             draft.portfolioStocks[
               payload.transaction.instrumentId
             ].holdQuantity += currentQuantity - previousQuantity;
+
+            //update hold quantity corresponding to the transaction.
+            draft.portfolioStocksOnHold[payload.transaction.id].holdQuantity =
+              draft.portfolioStocksOnHold[
+                payload.transaction.id
+              ].holdQuantity += currentQuantity - previousQuantity;
           }
         }
-        //add stock back to portfolio for sell
         break;
       case TransactionActionTypes.HANDLE_COMPLETED_TRANSACTION:
         //if a sell transaction is completed we need to update margin, and holdQuantity.
-        if (payload.transaction.type === "sell") {
+        if (payload.transaction.type === transactionConstants.SELL.label) {
           let totalPrice =
             payload.transaction.parsedTriggerPrice *
             payload.transaction.quantity;
@@ -136,10 +161,17 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
               payload.transaction.instrumentId
             ].holdQuantity -= payload.transaction.quantity;
           }
+
+          //remove hold quantity corresponding to transaction.
+          delete draft.portfolioStocksOnHold[payload.transaction.id];
+          draft.portfolioStocksOnHoldById =
+            draft.portfolioStocksOnHoldById.filter(
+              (id) => id !== payload.transaction.id
+            );
         }
 
         //add stock to portfolio and update margin.
-        if (payload.transaction.type === "buy") {
+        if (payload.transaction.type === transactionConstants.BUY.label) {
           console.log(payload.transaction);
 
           //transaction completed => we can update margin.
@@ -163,6 +195,7 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
             };
           } else {
             draft.portfolioStocks[payload.transaction.instrumentId] = {
+              id: payload.transaction.instrumentId,
               symbol: payload.transaction.symbol,
               quantity: payload.transaction.quantity,
               avgPrice: payload.transaction.parsedTriggerPrice,

@@ -7,6 +7,7 @@ import {
 import Table from "../components/Table/Table";
 import TransactionRow from "../components/Table/TransactionRow";
 import PendingTransactionRow from "../components/Table/PendingTransactionRow";
+import { transactionConstants } from "../utils/constants";
 
 function Dashboard() {
   const user = useSelector((state) => state.user.currentUser);
@@ -14,11 +15,29 @@ function Dashboard() {
     (state) => state.transactions
   );
 
-  const pendingTransactions = transactionsById.filter(
-    (item) => transactions[item].status === "pending"
+  const pendingTransactions = transactionsById.reduce(
+    (pending, instrumentId) => {
+      if (
+        transactions[instrumentId].status === transactionConstants.PENDING.label
+      ) {
+        return [...pending, transactions[instrumentId]];
+      }
+      return pending;
+    },
+    []
   );
-  const completedTransactions = transactionsById.filter(
-    (item) => transactions[item].status === "completed"
+
+  const completedTransactions = transactionsById.reduce(
+    (completed, instrumentId) => {
+      if (
+        transactions[instrumentId].status ===
+        transactionConstants.COMPLETED.label
+      ) {
+        return [...completed, transactions[instrumentId]];
+      }
+      return completed;
+    },
+    []
   );
 
   return (

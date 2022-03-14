@@ -2,21 +2,33 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Table } from "../components";
 import PortfolioRow from "../components/Table/PortfolioRow";
+import TransactionsOnHold from "../components/Table/TransactionsOnHold";
+import { selectUserInvestment } from "../redux/user/user.selector";
+import { floatParser } from "../utils/functions";
 import { portfolioHeaders } from "../utils/headers";
 
 function Holdings() {
-  const { balance, portfolioStocks, portfolioStocksById } = useSelector(
+  const withdrawableBalance = useSelector(
+    (state) => state.user.balance.withdrawableBalance
+  );
+
+  const { portfolioStocks, portfolioStocksById } = useSelector(
     (state) => state.user
   );
 
-  console.log(balance);
+  const market = useSelector((state) => state.market.market);
 
-  let investment = portfolioStocksById.reduce(
-    (acc, item) =>
-      Number(portfolioStocks[item].avgPrice) * portfolioStocks[item].quantity +
-      acc,
-    0
-  );
+  let investment = useSelector(selectUserInvestment);
+  let portfolioStocksWithCurrentValue = portfolioStocksById.map((stockId) => {
+    let quantity = portfolioStocks[stockId].quantity;
+    let avgPrice = portfolioStocks[stockId].avgPrice;
+
+    return {
+      ...portfolioStocks[stockId],
+      currentValue: (floatParser(market[stockId].ltP) * quantity).toFixed(2),
+      total: (avgPrice * quantity).toFixed(2),
+    };
+  });
 
   investment = investment ? investment.toFixed(2) : "0";
 
@@ -25,7 +37,7 @@ function Holdings() {
       <div className="greeting">Portfolio</div>
       <div className="heading">
         <span className="margin">
-          Available Margin : ₹{balance.withdrawableBalance.toFixed(2)}
+          Available Margin : ₹{withdrawableBalance}
         </span>
         <span style={{ paddingLeft: "10px" }} className="investment">
           Investment : ₹{investment}
@@ -34,10 +46,11 @@ function Holdings() {
       <div className="portfolio">
         <Table
           headings={portfolioHeaders}
-          rows={portfolioStocksById}
+          rows={portfolioStocksWithCurrentValue}
           Row={PortfolioRow}
         />
       </div>
+      <TransactionsOnHold />
     </div>
   );
 }

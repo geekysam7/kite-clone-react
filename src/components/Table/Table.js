@@ -83,7 +83,7 @@ export default function Table({
           <tbody className={rowClass ? rowClass : "transactions"}>
             {tRows && tRows.length
               ? tRows.map((row) => (
-                  <tr key={row}>
+                  <tr key={row.id}>
                     {Row ? (
                       <Row row={row} />
                     ) : (

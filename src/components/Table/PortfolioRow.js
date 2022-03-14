@@ -1,22 +1,19 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setTransactionState } from "../../redux/uistate/uistate.action";
+import { transactionConstants } from "../../utils/constants";
 
-export default function PortfolioRow({ row: transactionId }) {
-  const { portfolioStocks } = useSelector((state) => state.user);
-
+export default function PortfolioRow({ row: transaction }) {
   //imitate a api call
   const dispatch = useDispatch();
-
-  const transaction = portfolioStocks[transactionId] || {};
-
-  if (!transaction) return null;
 
   return (
     <>
       <td>{transaction.symbol}</td>
       <td>{transaction.quantity}</td>
       <td>{transaction.avgPrice}</td>
+      <td>{transaction.total}</td>
+      <td>{transaction.currentValue}</td>
       <td>
         <button
           className="marketwatch-button marketwatch-button--sell"
@@ -24,10 +21,11 @@ export default function PortfolioRow({ row: transactionId }) {
             dispatch(
               setTransactionState({
                 current: {
-                  instrumentId: transactionId,
-                  type: "sell",
+                  instrumentId: transaction.id,
+                  type: transactionConstants.SELL.label,
                   symbol: transaction.symbol,
                   quantity: transaction.quantity,
+                  avgPrice: transaction.avgPrice,
                 },
               })
             );

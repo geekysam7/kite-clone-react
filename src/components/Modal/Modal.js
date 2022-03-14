@@ -36,6 +36,7 @@ function Modal({
                 disabled={!!isLoading}
                 className="submit"
                 onClick={handleSubmit}
+                type="submit"
               >
                 {isLoading ? <div className="loader"></div> : submitButton}
               </button>

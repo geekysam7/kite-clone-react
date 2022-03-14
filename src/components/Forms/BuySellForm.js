@@ -6,48 +6,109 @@ import {
   sellInstrument,
 } from "../../redux/transaction/transaction.action";
 import { setTransactionState } from "../../redux/uistate/uistate.action";
+import { transactionConstants } from "../../utils/constants";
 import { floatParser } from "../../utils/functions";
 
 export default function BuySellForm() {
   const {
     isModified,
-    current: { instrumentId, type, symbol, quantity: currentQuantity },
+    current: {
+      instrumentId,
+      type: typeConstant,
+      symbol,
+      quantity: currentQuantity,
+      avgPrice,
+    },
     previous,
   } = useSelector((state) => state.uistate.transactionState);
 
   let ltP = useSelector((state) => state.market.market[instrumentId].ltP);
-  const portfolioStocks = useSelector((state) => state.user.portfolioStocks);
+  const {
+    portfolioStocks,
+    balance: { withdrawableBalance },
+  } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
+  const type = typeConstant.toLowerCase();
   const TYPE = type === "buy" ? "Buy" : "Sell";
 
   const [quantity, setQuantity] = useState(1);
+
+  const handleQuantity = (val) => {
+    if (!val || (Number(val) && Number(val) > 0 && val.length <= 5))
+      setQuantity(val);
+  };
+
   const [triggerPrice, setTriggerPrice] = useState("");
 
-  useEffect(() => {
-    setTriggerPrice(floatParser(ltP));
-  }, [ltP]);
+  const handleTriggerPrice = (val) => {
+    if (!val || (Number(val) && val.length <= 7)) setTriggerPrice(val);
+  };
 
   useEffect(() => {
-    setQuantity(currentQuantity || 1);
-  }, [currentQuantity]);
+    if (isModified) {
+      setTriggerPrice(previous.parsedTriggerPrice);
+    } else if (avgPrice) {
+      setTriggerPrice(avgPrice);
+    } else {
+      setTriggerPrice(floatParser(ltP));
+    }
+  }, [ltP, avgPrice, previous, isModified]);
+
+  useEffect(() => {
+    if (isModified) {
+      setQuantity(currentQuantity);
+    } else if (
+      transactionConstants.SELL.label === typeConstant &&
+      portfolioStocks[instrumentId] &&
+      currentQuantity >
+        portfolioStocks[instrumentId].quantity -
+          portfolioStocks[instrumentId].holdQuantity
+    ) {
+      setQuantity(
+        portfolioStocks[instrumentId].quantity -
+          portfolioStocks[instrumentId].holdQuantity
+      );
+    } else {
+      setQuantity(currentQuantity || 1);
+    }
+  }, [
+    currentQuantity,
+    isModified,
+    portfolioStocks,
+    typeConstant,
+    instrumentId,
+  ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!quantity || !triggerPrice) return;
 
     //prevent selling more stocks then present.
 
     if (isModified) {
       console.log(isModified);
 
-      if (type === "sell") {
+      if (typeConstant === transactionConstants.SELL.label) {
         if (
           !portfolioStocks[instrumentId] ||
           quantity >
             portfolioStocks[instrumentId].quantity -
               portfolioStocks[instrumentId].holdQuantity +
               previous.quantity
+        ) {
+          return;
+        }
+      }
+
+      if (typeConstant === transactionConstants.BUY.label) {
+        if (
+          withdrawableBalance -
+            Number(quantity) * Number(triggerPrice) +
+            Number(previous.quantity) * Number(previous.parsedTriggerPrice) <
+          0
         ) {
           return;
         }
@@ -63,7 +124,7 @@ export default function BuySellForm() {
             quantity: Number(quantity),
             triggerPrice: Number(triggerPrice),
             parsedTriggerPrice: Number(triggerPrice),
-            type,
+            type: typeConstant,
           },
         })
       );
@@ -73,7 +134,7 @@ export default function BuySellForm() {
       return;
     }
 
-    if (type === "sell") {
+    if (typeConstant === transactionConstants.SELL.label) {
       if (
         !portfolioStocks[instrumentId] ||
         quantity >
@@ -83,28 +144,34 @@ export default function BuySellForm() {
         return;
     }
 
+    if (typeConstant === transactionConstants.BUY.label) {
+      if (withdrawableBalance < Number(quantity) * Number(triggerPrice)) {
+        return;
+      }
+    }
+
     setIsLoading(true);
 
-    if (type === "buy") {
+    if (typeConstant === transactionConstants.BUY.label) {
       dispatch(
         buyInstrument({
           instrumentId: instrumentId,
           symbol: symbol,
           quantity: Number(quantity),
           triggerPrice: Number(triggerPrice),
-          type,
+          type: typeConstant,
         })
       );
     }
 
-    if (type === "sell") {
+    if (typeConstant === transactionConstants.SELL.label) {
       dispatch(
         sellInstrument({
           instrumentId: instrumentId,
           symbol: symbol,
           quantity: Number(quantity),
           triggerPrice: Number(triggerPrice),
-          type,
+          type: typeConstant,
         })
       );
     }
@@ -155,7 +222,7 @@ export default function BuySellForm() {
               min="1"
               value={quantity}
               placeholder="Qty."
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => handleQuantity(e.target.value)}
             />
           </div>
           <div className="price-container label">
@@ -180,22 +247,26 @@ export default function BuySellForm() {
               value={triggerPrice}
               required
               placeholder="Trigger Price"
-              onChange={(e) => setTriggerPrice(e.target.value)}
+              onChange={(e) => handleTriggerPrice(e.target.value)}
             />
           </div>
         </div>
       </div>
       <div className="transaction-window--buttons">
         <div className="flex-row" style={{ fontSize: "small" }}>
-          <div>Margin required:</div>
-          <div
-            style={{ paddingLeft: "5px" }}
-            className={`margin ${type}-margin`}
-          >
-            {ltP * quantity}
-          </div>
+          {typeConstant === transactionConstants.BUY.label && (
+            <>
+              <div>Margin required:</div>
+              <div
+                style={{ paddingLeft: "5px" }}
+                className={`margin ${type}-margin`}
+              >
+                {(triggerPrice * quantity).toFixed(2)}
+              </div>
+            </>
+          )}
 
-          {TYPE === "Sell" && (
+          {typeConstant === transactionConstants.SELL.label && (
             <>
               <div style={{ paddingLeft: "5px" }}>Available Quantity: </div>
               <div
@@ -204,7 +275,8 @@ export default function BuySellForm() {
               >
                 {portfolioStocks[instrumentId]?.quantity
                   ? portfolioStocks[instrumentId].quantity -
-                    portfolioStocks[instrumentId].holdQuantity
+                    portfolioStocks[instrumentId].holdQuantity +
+                    (isModified && currentQuantity ? currentQuantity : "")
                   : "0"}
               </div>
             </>
