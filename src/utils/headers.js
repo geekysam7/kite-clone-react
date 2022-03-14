@@ -21,7 +21,7 @@ const portfolioHeaders = [
   { label: "Qty.", value: "quantity" },
   { label: "Average", value: "average" },
   { label: "Total", value: "total" },
-  { label: "Current Value", value: "currentValue" },
+  { label: "Current", value: "currentValue" },
   { label: "Action", value: "action" },
 ];
 

@@ -436,6 +436,7 @@ table thead td div:hover .icon-hover {
 }
 
 .gear-wrapper {
+  display: flex;
   position: relative;
 }
 
@@ -444,13 +445,13 @@ table thead td div:hover .icon-hover {
   bottom: 100%;
   margin-bottom: 0;
   margin-right: 8px;
-  width: 200px;
+  width: 300px;
   right: 0;
-  height: 200px;
+  height: 300px;
   background-color: var(--color-bg-default);
-  z-index: 9999;
+  z-index: 10;
   border-radius: 4px;
-  padding: 10px 14px;
+  padding: 10px 0;
   color: var(color-text-3);
   border: 1px solid var(--color-border-default);
   box-shadow: 1px 1px 4px var(--color-border-default);
@@ -487,4 +488,78 @@ table thead td div:hover .icon-hover {
 
 .markewatch-results--container {
   display: flex;
+}
+
+.line {
+  border-bottom: 1px solid var(--color-border-default);
+  margin: 10px 0;
+}
+
+.watchlist-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 150px;
+  overflow-y: scroll;
+
+  &--item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-options {
+      display: none;
+    }
+
+    &:hover {
+      background-color: var(--color-border-default);
+    }
+
+    &:hover &-options {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.sort-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+
+  &--item {
+    padding: 10px 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(var(--color-border-5--rgb), 0.4);
+    color: var(--color-bg-3);
+    width: 80px;
+    margin-right: 10px;
+    font-size: 13px;
+
+    &:hover {
+      background-color: var(--color-border-default);
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: rgba(var(--color-border-5--rgb), 0.15);
+    }
+  }
+}
+
+.watchlist-heading {
+  padding: 0 10px;
+}
+
+.watchlist-icon {
+  width: 10;
+  height: 10;
+  margin: 0 4px;
+  cursor: pointer;
+  color: rgba(var(--color-border-5--rgb), 0.6);
 }

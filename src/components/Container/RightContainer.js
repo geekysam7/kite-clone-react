@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "../../pages/Dashboard";
 import Holdings from "../../pages/Holdings";
 import Marketwatch from "../../pages/Marketwatch";
+import Orders from "../../pages/Orders";
 
 export default function RightContainer() {
   const location = useLocation();
@@ -27,7 +28,7 @@ export default function RightContainer() {
         <Route index element={<Navigate to={"/dashboard"} />} />
         <Route path="/marketwatch" element={<Marketwatch />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/orders" element={<Dashboard />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/holdings" element={<Holdings />} />
         <Route path="/funds" element={<Dashboard />} />
         <Route path="/*" element={<Navigate to="/notfound" />} />

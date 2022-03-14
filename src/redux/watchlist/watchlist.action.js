@@ -36,3 +36,10 @@ export const handleItemInTransaction = (payload) => ({
   type: WatchlistActionTypes.HANDLE_ITEM_IN_TRANSACTION,
   payload,
 });
+
+export const deleteWatchlist = (watchlist) => {
+  return {
+    type: WatchlistActionTypes.DELETE_WATCHLIST,
+    payload: watchlist,
+  };
+};

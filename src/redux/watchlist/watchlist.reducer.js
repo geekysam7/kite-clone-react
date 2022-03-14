@@ -67,6 +67,15 @@ const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
       case WatchlistActionTypes.SET_SELECTED_WATCHLIST:
         draft.selected = payload;
         break;
+      case WatchlistActionTypes.DELETE_WATCHLIST:
+        delete draft.watchlist[payload];
+        draft.watchlistByIds = draft.watchlistByIds.filter(
+          (item) => item !== payload
+        );
+        if (draft.watchlistByIds.length) {
+          draft.selected = draft.watchlistByIds[0];
+        }
+        break;
       default:
         break;
     }
