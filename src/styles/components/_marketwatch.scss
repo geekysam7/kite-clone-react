@@ -109,3 +109,51 @@
   overflow: auto;
   z-index: 1;
 }
+
+.marketwatch-button {
+  width: 35px;
+  padding: 2px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 2px;
+
+  &--add {
+    color: var(--color-text-3);
+    background-color: var(--color-bg-8);
+    border: 1px solid var(--color-bg-8);
+  }
+
+  &--buy {
+    color: var(--color-text-3);
+    background-color: var(--color-bg-5);
+    border: 1px solid var(--color-bg-5);
+  }
+
+  &--sell {
+    color: var(--color-text-3);
+    background-color: var(--color-bg-6);
+    border: 1px solid var(--color-bg-6);
+    margin: 0 3px;
+  }
+
+  &--modify {
+    color: var(--color-text-3);
+    background-color: var(--color-bg-5);
+    border: 1px solid var(--color-bg-5);
+    margin: 0 3px;
+  }
+
+  &--delete {
+    color: var(--color-text-1);
+    border: 1px solid var(--color-bg-2);
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+}
+
+.markewatch-results--container {
+  display: flex;
+}

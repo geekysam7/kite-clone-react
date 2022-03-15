@@ -70,3 +70,17 @@ td:nth-last-child(1) {
   text-align: right;
   padding-right: 10px;
 }
+
+table thead td div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-hover {
+  opacity: 0;
+}
+
+table thead td div:hover .icon-hover {
+  opacity: 1;
+}

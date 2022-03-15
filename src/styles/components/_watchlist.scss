@@ -1,0 +1,39 @@
+.watchlist-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 150px;
+  overflow-y: scroll;
+
+  &--item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-options {
+      display: none;
+    }
+
+    &:hover {
+      background-color: var(--color-border-default);
+    }
+
+    &:hover &-options {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.watchlist-heading {
+  padding: 0 10px;
+}
+
+.watchlist-icon {
+  width: 10;
+  height: 10;
+  margin: 0 4px;
+  cursor: pointer;
+  color: rgba(var(--color-border-5--rgb), 0.6);
+}

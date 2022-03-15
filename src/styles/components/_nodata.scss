@@ -1,0 +1,24 @@
+.no-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+
+  &--image {
+    width: 100px;
+  }
+
+  &--title {
+    font-weight: 200;
+    font-size: 1.4rem;
+  }
+
+  &--body {
+    font-weight: 200;
+    margin-top: 10px;
+    color: var(--color-text-1);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}

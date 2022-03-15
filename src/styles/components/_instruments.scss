@@ -5,6 +5,12 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 398px;
+    display: flex;
+    background-color: var(--color-bg-default);
+    border-top: 1px solid var(--color-border-1);
 
     &--list {
       display: flex;
@@ -16,6 +22,25 @@
       padding: 4px 10px;
       cursor: pointer;
     }
+
+    &--item {
+      padding: 10px 14px;
+      border-right: 1px solid var(--color-border-1);
+      cursor: pointer;
+      color: rgba(var(--color-border-5--rgb), 0.4);
+    }
+
+    &--selecteditem {
+      color: var(--color-text-5);
+      background-color: var(--color-bg-1);
+    }
+  }
+
+  &-watchlist {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
   }
 
   &-item {
@@ -82,4 +107,17 @@
 .change-percentage {
   padding-left: 3px;
   color: var(--color-text-1);
+}
+
+.instrument-button {
+  color: var(--color-text-3);
+  background-color: var(--color-bg-8);
+  border: 1px solid var(--color-bg-8);
+  padding: 4px;
+  margin: 4px;
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.8;
+  }
 }
