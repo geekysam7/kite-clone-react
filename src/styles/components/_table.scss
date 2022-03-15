@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
-  overflow: scroll;
+  overflow: auto;
   min-height: 300px;
   max-height: 300px;
   padding-bottom: 40px;
@@ -15,7 +15,7 @@
   border-collapse: collapse;
   border-spacing: 0;
   max-height: 200px;
-  overflow: scroll;
+  overflow: auto;
 
   & tr {
     border-top: 1px solid var(--color-border-default);

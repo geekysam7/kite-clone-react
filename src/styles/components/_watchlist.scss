@@ -3,7 +3,7 @@
   flex-direction: column;
   flex: 1;
   height: 150px;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   &--item {
     padding: 10px;
