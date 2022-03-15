@@ -74,6 +74,8 @@ export const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
         );
         if (draft.watchlistByIds.length) {
           draft.selected = draft.watchlistByIds[0];
+        } else {
+          draft.selected = 0;
         }
         break;
       default:
