@@ -17,11 +17,11 @@ export default function GearModal() {
 
   return (
     <div className="gear-modal">
-      <div className="sort-container">
+      {/* <div className="sort-container">
         <div className="sort-container--item">Sort A-Z</div>
         <div className="sort-container--item">Sort By %</div>
-      </div>
-      <Line />
+      </div> */}
+      {/* <Line /> */}
       <div className="watchlist-heading">Your Watchlists</div>
       <Line />
       <ul className="watchlist-list">
