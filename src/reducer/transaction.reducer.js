@@ -1,6 +1,6 @@
 import produce from "immer";
-import { transactionConstants } from "../../utils/constants";
-import { TransactionActionTypes } from "./transaction.types";
+import { transactionConstants } from "utils/constants";
+import { TransactionActionTypes } from "types";
 
 //transactions will contain a status property to filter pending/completed
 const INITIAL_STATE = {
@@ -8,7 +8,10 @@ const INITIAL_STATE = {
   transactionsById: [],
 };
 
-const transactionReducer = (state = INITIAL_STATE, { type, payload }) => {
+export const transactionReducer = (
+  state = INITIAL_STATE,
+  { type, payload }
+) => {
   return produce(state, (draft) => {
     switch (type) {
       case TransactionActionTypes.TOGGLE_TRANSACTION_FORM:
@@ -51,5 +54,3 @@ const transactionReducer = (state = INITIAL_STATE, { type, payload }) => {
     }
   });
 };
-
-export default transactionReducer;

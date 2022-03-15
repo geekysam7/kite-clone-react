@@ -1,10 +1,10 @@
+import { transactionsOnHoldHeaders } from "pages/Holding/Holding.constants";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Table } from "..";
-import { transactionsOnHoldHeaders } from "../../utils/headers";
-import TransactionsOnHoldRow from "./TransactionsOnHoldRow";
 
-function TransactionsOnHold() {
+import { Table, TransactionsOnHoldRow } from ".";
+
+export default function TransactionsOnHold() {
   const { portfolioStocksOnHold, portfolioStocksOnHoldById } = useSelector(
     (state) => state.user
   );
@@ -39,5 +39,3 @@ function TransactionsOnHold() {
     </>
   );
 }
-
-export default TransactionsOnHold;

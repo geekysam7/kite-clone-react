@@ -1,14 +1,15 @@
-import { faCreditCard } from "@fortawesome/fontawesome-free-solid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalType } from "../../redux/uistate/uistate.action";
-import { addBalance, withdrawBalance } from "../../redux/user/user.action";
-import { appConstants } from "../../utils/constants";
-import { setTimeoutPromise } from "../../utils/functions";
-import Modal from "../Modal/Modal";
+import { faCreditCard } from "@fortawesome/fontawesome-free-solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function Funds() {
+import { Modal } from "components";
+import { setModalType } from "action/uistate.action";
+import { addBalance, withdrawBalance } from "action/user.action";
+import { appConstants } from "utils/constants";
+import { setTimeoutPromise } from "utils/general.utils";
+
+export default function Funds() {
   const dispatch = useDispatch();
   const withdrawableBalance = useSelector(
     (state) => state.user.balance.withdrawableBalance
@@ -130,5 +131,3 @@ function Funds() {
     </>
   );
 }
-
-export default Funds;

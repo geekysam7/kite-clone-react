@@ -1,15 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import {
   pendingTransactionHeaders,
   transactionHeaders,
-} from "../utils/headers";
-import Table from "../components/Table/Table";
-import TransactionRow from "../components/Table/TransactionRow";
-import PendingTransactionRow from "../components/Table/PendingTransactionRow";
-import { transactionConstants } from "../utils/constants";
+} from "./Dashboard.constants";
 
-function Dashboard() {
+import { PendingTransactionRow, Table, TransactionRow } from "components";
+import { transactionConstants } from "utils/constants";
+
+export default function Dashboard() {
   const user = useSelector((state) => state.user.currentUser);
   const { transactionsById, transactions } = useSelector(
     (state) => state.transactions
@@ -58,5 +58,3 @@ function Dashboard() {
     </div>
   );
 }
-
-export default Dashboard;

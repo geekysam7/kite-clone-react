@@ -1,7 +1,5 @@
 import React from "react";
 
-function Marketwatch() {
+export default function Marketwatch() {
   return <div>Marketwatch</div>;
 }
-
-export default Marketwatch;

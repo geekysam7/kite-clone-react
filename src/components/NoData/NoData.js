@@ -1,6 +1,6 @@
 import React from "react";
 
-function NoData({ svg, title, body }) {
+export default function NoData({ svg, title, body }) {
   return (
     <div className="no-data">
       <div className="no-data--image">
@@ -11,5 +11,3 @@ function NoData({ svg, title, body }) {
     </div>
   );
 }
-
-export default NoData;

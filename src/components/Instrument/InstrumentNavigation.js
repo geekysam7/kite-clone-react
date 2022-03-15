@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedWatchlist } from "../../redux/watchlist/watchlist.action";
-import CreateWatchlist, { CreateWatchlistButton } from "./CreateWatchlist";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench } from "@fortawesome/fontawesome-free-solid";
-import useClickOutside from "../../hooks/useClickOutside";
-import GearModal from "../Modal/GearModal";
-import { appConstants } from "../../utils/constants";
 
-function InstrumentNavigation() {
+import { CreateWatchlist } from ".";
+import { CreateWatchlistButton } from "./CreateWatchlist";
+
+import { GearModal } from "components";
+import { setSelectedWatchlist } from "action/watchlist.action";
+import { appConstants } from "utils/constants";
+import useClickOutside from "hooks/useClickOutside";
+
+export default function InstrumentNavigation() {
   const { watchlistByIds, watchlist } = useSelector((state) => state.watchlist);
   const modalTypeOpen = useSelector((state) => state.uistate.modalTypeOpen);
   const [isGearModalOpen, setIsGearModalOpen] = useState(false);
@@ -71,5 +74,3 @@ function InstrumentNavigation() {
     </div>
   );
 }
-
-export default InstrumentNavigation;

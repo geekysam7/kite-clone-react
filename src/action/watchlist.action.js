@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { WatchlistActionTypes } from "./watchlist.types";
+import { WatchlistActionTypes } from "../types/watchlist.types";
 
 export const setWatchlist = (watchlist) => ({
   type: WatchlistActionTypes.SET_WATCHLIST,

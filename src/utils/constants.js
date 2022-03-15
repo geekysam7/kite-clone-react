@@ -7,6 +7,7 @@ export const appConstants = Object.freeze({
   FUNDS: { label: "FUNDS", mapping: "Funds" },
 });
 
+//transaction.constants.js
 export const transactionConstants = Object.freeze({
   BUY: { label: "BUY", mapping: "Buy" },
   SELL: { label: "SELL", mapping: "Sell" },

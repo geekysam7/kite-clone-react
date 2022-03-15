@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import AuthContainer from "../components/Container/AuthContainer";
-import { setCurrentUser } from "../redux/user/user.action";
-import { showMaintainanceAlert } from "../utils/functions";
+
+import { AuthContainer } from "components";
+import { setCurrentUser } from "action/user.action";
+import { showMaintainanceAlert } from "utils/general.utils";
 
 const passwordConditionCheck = (password) =>
   password.length < 6 || password.length > 18;
 const userIdConditionCheck = (userId) =>
   userId.length < 6 || userId.length > 25;
 
-function SignIn() {
+export default function SignIn() {
   const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -117,5 +118,3 @@ function SignIn() {
     </AuthContainer>
   );
 }
-
-export default SignIn;

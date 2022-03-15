@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setTransactionState } from "../../redux/uistate/uistate.action";
-import { transactionConstants } from "../../utils/constants";
+
+import { setTransactionState } from "action/uistate.action";
+import { transactionConstants } from "utils/constants";
 
 export default function PortfolioRow({ row: transaction }) {
   //imitate a api call

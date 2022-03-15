@@ -1,3 +1,4 @@
+//general.utils.js
 const floatParser = (str) => parseFloat(str.replace(/,/g, "")).toFixed(2);
 
 const flattenArray = (instruments) => {

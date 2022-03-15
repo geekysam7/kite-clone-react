@@ -6,9 +6,9 @@ import {
   faCompass,
   faSuitcase,
 } from "@fortawesome/fontawesome-free-solid";
-import Funds from "../Funds/Funds";
-import Profile from "../Profile/Profile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { Funds, Profile } from "components";
 
 const navLinkStyle = ({ isActive }) =>
   isActive ? "nav-link--active" : "nav-link--hover";

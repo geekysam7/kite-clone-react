@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Table } from "../components";
-import PortfolioRow from "../components/Table/PortfolioRow";
-import TransactionsOnHold from "../components/Table/TransactionsOnHold";
-import { selectUserInvestment } from "../redux/user/user.selector";
-import { floatParser } from "../utils/functions";
-import { portfolioHeaders } from "../utils/headers";
+
+import { portfolioHeaders } from "./Holding.constants";
+
+import { PortfolioRow, Table, TransactionsOnHold } from "components";
+import { selectUserInvestment } from "selector/user.selector";
+import { floatParser } from "utils/general.utils";
 
 function Holdings() {
   const withdrawableBalance = useSelector(
@@ -37,7 +37,7 @@ function Holdings() {
       <div className="greeting">Portfolio</div>
       <div className="heading">
         <span className="margin">
-          Available Margin : ₹{withdrawableBalance}
+          Available Margin : ₹{withdrawableBalance.toFixed(2)}
         </span>
         <span style={{ paddingLeft: "10px" }} className="investment">
           Investment : ₹{investment}

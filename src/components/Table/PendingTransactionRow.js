@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cancelPendingTransaction } from "../../redux/transaction/transaction.action";
-import { setTransactionState } from "../../redux/uistate/uistate.action";
-import { transactionConstants } from "../../utils/constants";
+
+import { cancelPendingTransaction } from "action/transaction.action";
+import { setTransactionState } from "action/uistate.action";
+import { transactionConstants } from "utils/constants";
 
 export default function PendingTransactionRow({ row: { id: transactionId } }) {
   const dispatch = useDispatch();

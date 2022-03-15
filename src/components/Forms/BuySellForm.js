@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   buyInstrument,
   handleModifiedTransaction,
   sellInstrument,
-} from "../../redux/transaction/transaction.action";
-import { setTransactionState } from "../../redux/uistate/uistate.action";
-import { transactionConstants } from "../../utils/constants";
-import { floatParser } from "../../utils/functions";
+} from "action/transaction.action";
+import { setTransactionState } from "action/uistate.action";
+import { transactionConstants } from "utils/constants";
+import { floatParser } from "utils/general.utils";
 
 export default function BuySellForm() {
   const {

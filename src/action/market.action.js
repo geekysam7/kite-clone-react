@@ -1,4 +1,4 @@
-import { MarketActionTypes } from "./market.types";
+import { MarketActionTypes } from "../types/market.types";
 
 export const setMarketData = (market) => ({
   type: MarketActionTypes.SET_MARKET_DATA,

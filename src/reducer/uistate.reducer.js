@@ -1,5 +1,5 @@
 import produce from "immer";
-import { UistateTypes } from "./uistate.types";
+import { UistateTypes } from "types";
 
 const INITIAL_STATE = {
   modalTypeOpen: "",
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   transactionState: {}, //currentTransaction, previousTransaction.
 };
 
-const uistateReducer = (state = INITIAL_STATE, { type, payload }) => {
+export const uistateReducer = (state = INITIAL_STATE, { type, payload }) => {
   return produce(state, (draft) => {
     switch (type) {
       case UistateTypes.TOGGLE_MODAL_TYPE:
@@ -29,5 +29,3 @@ const uistateReducer = (state = INITIAL_STATE, { type, payload }) => {
     }
   });
 };
-
-export default uistateReducer;

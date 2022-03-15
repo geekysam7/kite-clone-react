@@ -1,7 +1,6 @@
 import { produce } from "immer";
-import { transactionConstants } from "../../utils/constants";
-import { TransactionActionTypes } from "../transaction/transaction.types";
-import { UserActionTypes } from "./user.types";
+import { transactionConstants } from "../utils/constants";
+import { TransactionActionTypes, UserActionTypes } from "types";
 
 const INITIAL_STATE = {
   currentUser: null, // userName, userId.
@@ -15,7 +14,7 @@ const INITIAL_STATE = {
   portfolioStocksOnHoldById: [],
 };
 
-const userReducer = (state = INITIAL_STATE, { type, payload }) => {
+export const userReducer = (state = INITIAL_STATE, { type, payload }) => {
   return produce(state, (draft) => {
     switch (type) {
       case UserActionTypes.SET_CURRENT_USER:
@@ -211,5 +210,3 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
     }
   });
 };
-
-export default userReducer;

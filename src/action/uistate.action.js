@@ -1,4 +1,4 @@
-import { UistateTypes } from "./uistate.types";
+import { UistateTypes } from "../types/uistate.types";
 
 export const setModalType = (type) => ({
   type: UistateTypes.TOGGLE_MODAL_TYPE,

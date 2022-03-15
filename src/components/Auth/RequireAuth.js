@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
-function RequireAuth({ children }) {
+export default function RequireAuth({ children }) {
   const currentUser = useSelector((state) => state.user.currentUser);
 
   const location = useLocation();
@@ -13,5 +13,3 @@ function RequireAuth({ children }) {
 
   return children;
 }
-
-export default RequireAuth;

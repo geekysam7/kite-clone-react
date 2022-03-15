@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { sortAlphabetically } from "../../utils/functions";
+import { sortAlphabetically } from "utils/general.utils";
 
 const selectWatchlist = (state) => state.watchlist;
 const selectWatchlistId = (state, itemId) => itemId;

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { transactionConstants } from "../../utils/constants";
+
+import { transactionConstants } from "utils/constants";
 
 export default function TransactionRow({ row: { id: transactionId } }) {
   const transactions = useSelector((state) => state.transactions.transactions);

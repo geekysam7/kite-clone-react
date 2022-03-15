@@ -1,6 +1,6 @@
 import produce from "immer";
-import { marketData } from "./market.data";
-import { MarketActionTypes } from "./market.types";
+import { marketData } from "../data/market.data";
+import { MarketActionTypes } from "types";
 
 const INITIAL_STATE = {
   market: {},
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   data: marketData, //not normalized, imitating backend api call.
 };
 
-const marketReducer = (state = INITIAL_STATE, { type, payload }) => {
+export const marketReducer = (state = INITIAL_STATE, { type, payload }) => {
   return produce(state, (draft) => {
     switch (type) {
       case MarketActionTypes.SET_MARKET_DATA:
@@ -30,5 +30,3 @@ const marketReducer = (state = INITIAL_STATE, { type, payload }) => {
     }
   });
 };
-
-export default marketReducer;

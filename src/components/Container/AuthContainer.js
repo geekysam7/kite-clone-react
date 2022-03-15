@@ -1,7 +1,5 @@
 import React from "react";
 
-function AuthContainer({ children }) {
+export default function AuthContainer({ children }) {
   return <div className="auth">{children}</div>;
 }
-
-export default AuthContainer;

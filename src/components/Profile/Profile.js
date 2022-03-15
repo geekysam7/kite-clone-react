@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-function Profile() {
+export default function Profile() {
   const user = useSelector((state) => state.user.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,5 +26,3 @@ function Profile() {
     </div>
   );
 }
-
-export default Profile;

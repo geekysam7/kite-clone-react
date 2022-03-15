@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { TransactionActionTypes } from "./transaction.types";
+import { TransactionActionTypes } from "../types/transaction.types";
 
 //each transaction will have it's unique id => helps when changing transaction state.
 

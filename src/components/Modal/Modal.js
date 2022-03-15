@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-function Modal({
+export default function Modal({
   show,
   close,
   title,
@@ -48,5 +48,3 @@ function Modal({
     document.getElementById("modal")
   );
 }
-
-export default Modal;

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setModalType } from "../../redux/uistate/uistate.action";
+
+import { setModalType } from "action/uistate.action";
 import {
   createWatchlist,
   handleItemInTransaction,
-} from "../../redux/watchlist/watchlist.action";
-import { appConstants } from "../../utils/constants";
-import Modal from "../Modal/Modal";
+} from "action/watchlist.action";
+import { appConstants } from "utils/constants";
+
+import { Modal } from "components";
 
 export function CreateWatchlistButton() {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ export function CreateWatchlistButton() {
   );
 }
 
-function CreateWatchlist({ show }) {
+export default function CreateWatchlist({ show }) {
   const closeModal = () => {
     dispatch(setModalType(""));
   };
@@ -73,5 +75,3 @@ function CreateWatchlist({ show }) {
     </Modal>
   );
 }
-
-export default CreateWatchlist;

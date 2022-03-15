@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import { LeftContainer, RightContainer, MainContainer, BuySellForm } from "..";
-import { handleCompletedTransactions } from "../../redux/transaction/transaction.action";
-import { transactionConstants } from "../../utils/constants";
-import { floatParser } from "../../utils/functions";
-import Header from "../Header/Header";
 
-function Container() {
+import { MainContainer } from ".";
+import LeftContainer from "./LeftContainer";
+import RightContainer from "./RightContainer";
+
+import { BuySellForm, Header } from "components";
+import { handleCompletedTransactions } from "action/transaction.action";
+import { transactionConstants } from "utils/constants";
+import { floatParser } from "utils/general.utils";
+
+export default function Container() {
   const { transactions, transactionsById } = useSelector(
     (state) => state.transactions
   );
@@ -44,7 +48,6 @@ function Container() {
       if (pendingTransactions.length) {
         pendingTransactions.forEach((transactionId) => {
           let transaction = transactions[transactionId];
-          console.log(transaction);
           if (market[transaction.instrumentId]) {
             if (
               transaction.type === transactionConstants.SELL.label &&
@@ -81,5 +84,3 @@ function Container() {
     </div>
   );
 }
-
-export default Container;

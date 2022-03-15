@@ -1,12 +1,13 @@
-import { faEdit, faTrash } from "@fortawesome/fontawesome-free-solid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteWatchlist } from "../../redux/watchlist/watchlist.action";
-import { CreateWatchlistButton } from "../Instrument/CreateWatchlist";
-import Line from "../Line/Line";
+import { faTrash } from "@fortawesome/fontawesome-free-solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function GearModal() {
+import { Line } from "components";
+import { deleteWatchlist } from "action/watchlist.action";
+import { CreateWatchlistButton } from "components/Instrument/CreateWatchlist";
+
+export default function GearModal() {
   const { watchlistByIds, watchlist } = useSelector((state) => state.watchlist);
   const dispatch = useDispatch();
 
@@ -36,9 +37,9 @@ function GearModal() {
               >
                 <FontAwesomeIcon icon={faTrash} />
               </div>
-              <div className="watchlist-icon">
+              {/* <div className="watchlist-icon">
                 <FontAwesomeIcon icon={faEdit} />
-              </div>
+              </div> */}
             </div>
           </li>
         ))}
@@ -47,5 +48,3 @@ function GearModal() {
     </div>
   );
 }
-
-export default GearModal;

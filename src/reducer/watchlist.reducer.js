@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { WatchlistActionTypes } from "./watchlist.types";
+import { WatchlistActionTypes } from "../types/watchlist.types";
 
 /*
 
@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   watchlistByIds: [],
 };
 
-const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
+export const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
   return produce(state, (draft) => {
     switch (type) {
       case WatchlistActionTypes.SET_WATCHLIST:
@@ -81,5 +81,3 @@ const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
     }
   });
 };
-
-export default watchlistReducer;

@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "../../pages/Dashboard";
-import Holdings from "../../pages/Holdings";
-import Marketwatch from "../../pages/Marketwatch";
-import Orders from "../../pages/Orders";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+import { Dashboard, Holding, Marketwatch, Orders } from "pages";
 
 export default function RightContainer() {
   const location = useLocation();
@@ -29,7 +32,7 @@ export default function RightContainer() {
         <Route path="/marketwatch" element={<Marketwatch />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/holdings" element={<Holdings />} />
+        <Route path="/holdings" element={<Holding />} />
         <Route path="/funds" element={<Dashboard />} />
         <Route path="/*" element={<Navigate to="/notfound" />} />
       </Routes>

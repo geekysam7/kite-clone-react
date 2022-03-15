@@ -1,26 +1,23 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   faArrowDown,
   faArrowUp,
   faTrash,
 } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import useClickOutside from "../../hooks/useClickOutside";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { setMarketData } from "../../redux/market/market.action";
-import {
-  setModalType,
-  setTransactionState,
-} from "../../redux/uistate/uistate.action";
+
+import { InstrumentNavigation, NoData } from "components";
+import useClickOutside from "hooks/useClickOutside";
+import { setMarketData } from "action/market.action";
+import { setModalType, setTransactionState } from "action/uistate.action";
 import {
   addItemToWatchlist,
   handleItemInTransaction,
   removeSelectedWatchlistItem,
-} from "../../redux/watchlist/watchlist.action";
-import { transactionConstants } from "../../utils/constants";
-import InstrumentNavigation from "../Instrument/InstrumentNavigation";
-import NoData from "../NoData/NoData";
+} from "action/watchlist.action";
+import { transactionConstants } from "utils/constants";
 
 const Instrument = ({ item }) => {
   const { market } = useSelector((state) => state.market);
