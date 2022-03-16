@@ -33,24 +33,26 @@ function Holdings() {
   investment = investment ? investment.toFixed(2) : "0";
 
   return (
-    <div className="page-content--portfolio">
-      <div className="greeting">Portfolio</div>
-      <div className="heading">
-        <span className="margin">
-          Available Margin : ₹{withdrawableBalance.toFixed(2)}
-        </span>
-        <span style={{ paddingLeft: "10px" }} className="investment">
-          Investment : ₹{investment}
-        </span>
+    <div className="holding">
+      <div className="page-content--portfolio">
+        <div className="greeting">Portfolio</div>
+        <div className="heading">
+          <span className="margin">
+            Available Margin : ₹{withdrawableBalance.toFixed(2)}
+          </span>
+          <span style={{ paddingLeft: "10px" }} className="investment">
+            Investment : ₹{investment}
+          </span>
+        </div>
+        <div className="portfolio">
+          <Table
+            headings={portfolioHeaders}
+            rows={portfolioStocksWithCurrentValue}
+            Row={PortfolioRow}
+          />
+        </div>
+        <TransactionsOnHold />
       </div>
-      <div className="portfolio">
-        <Table
-          headings={portfolioHeaders}
-          rows={portfolioStocksWithCurrentValue}
-          Row={PortfolioRow}
-        />
-      </div>
-      <TransactionsOnHold />
     </div>
   );
 }

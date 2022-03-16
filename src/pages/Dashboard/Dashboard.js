@@ -41,20 +41,22 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="page-content--transactions">
-      <div className="greeting">Hi, {user.userName}</div>
-      <div className="heading">Completed Transactions</div>
-      <Table
-        headings={transactionHeaders}
-        rows={completedTransactions}
-        Row={TransactionRow}
-      />
-      <div className="heading">Pending Transactions</div>
-      <Table
-        headings={pendingTransactionHeaders}
-        rows={pendingTransactions}
-        Row={PendingTransactionRow}
-      />
+    <div className="dashboard">
+      <div className="page-content--transactions">
+        <div className="greeting">Hi, {user.userName}</div>
+        <div className="heading">Completed Transactions</div>
+        <Table
+          headings={transactionHeaders}
+          rows={completedTransactions}
+          Row={TransactionRow}
+        />
+        <div className="heading">Pending Transactions</div>
+        <Table
+          headings={pendingTransactionHeaders}
+          rows={pendingTransactions}
+          Row={PendingTransactionRow}
+        />
+      </div>
     </div>
   );
 }

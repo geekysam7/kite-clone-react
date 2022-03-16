@@ -1,7 +1,7 @@
 .transaction-window {
   width: 100%;
   max-width: 550px;
-  height: 320px;
+  min-height: 340px;
   position: fixed;
   bottom: 0;
   z-index: 99;
@@ -88,6 +88,7 @@
     align-items: center;
     padding: 20px 15px;
     background-color: var(--color-athens-grey);
+    flex-wrap: wrap;
 
     & button {
       cursor: pointer;

@@ -26,16 +26,14 @@ export default function RightContainer() {
   });
 
   return (
-    <div className="dashboard">
-      <Routes>
-        <Route index element={<Navigate to={"/dashboard"} />} />
-        <Route path="/marketwatch" element={<Marketwatch />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/holdings" element={<Holding />} />
-        <Route path="/funds" element={<Dashboard />} />
-        <Route path="/*" element={<Navigate to="/notfound" />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route index element={<Navigate to={"/dashboard"} />} />
+      <Route path="/marketwatch" element={<Marketwatch />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/holdings" element={<Holding />} />
+      <Route path="/funds" element={<Dashboard />} />
+      <Route path="/*" element={<Navigate to="/notfound" />} />
+    </Routes>
   );
 }

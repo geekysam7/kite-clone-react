@@ -54,3 +54,57 @@
     display: none;
   }
 }
+
+.desktop-wrapper {
+  height: 100%;
+  display: flex;
+  position: relative;
+  flex: 0 0 400px;
+}
+
+.holding {
+  width: 100%;
+  height: 100%;
+  padding: 25px;
+  padding-left: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 900px) {
+  .desktop-wrapper {
+    display: none;
+  }
+
+  .container-left {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    flex: 1;
+    box-shadow: none;
+    border: none;
+  }
+
+  .instruments-lists {
+    width: 100%;
+  }
+
+  .marketsearch,
+  .marketwatch-selector,
+  .marketsearch-results {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .transaction-window {
+    width: 100vw;
+    height: 100vh;
+    max-width: 600px;
+
+    &--buttons {
+      max-width: 600px;
+    }
+  }
+}

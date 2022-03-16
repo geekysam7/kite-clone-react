@@ -10,6 +10,7 @@ import { BuySellForm, Header } from "components";
 import { handleCompletedTransactions } from "action/transaction.action";
 import { transactionConstants } from "utils/constants";
 import { floatParser } from "utils/general.utils";
+import DesktopWrapper from "./DesktopWrapper";
 
 export default function Container() {
   const { transactions, transactionsById } = useSelector(
@@ -75,7 +76,9 @@ export default function Container() {
     <div className="app" data-theme={theme}>
       <Header switchTheme={switchTheme} />
       <MainContainer>
-        <LeftContainer />
+        <DesktopWrapper>
+          <LeftContainer />
+        </DesktopWrapper>
         <Routes>
           <Route path="/*" element={<RightContainer />} />
         </Routes>

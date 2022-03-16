@@ -104,10 +104,10 @@
 .profile-initials {
   background-color: var(--color-bg-1);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: flex;
-  font-size: 10px;
+  font-size: 12px;
   justify-content: center;
   align-items: center;
   color: var(--color-text-4);
@@ -181,4 +181,14 @@
 
 .desktop {
   display: none;
+}
+
+.mobile {
+  padding: 4px;
+}
+
+@media only screen and (max-width: 900px) {
+  .profile-userId {
+    display: none;
+  }
 }

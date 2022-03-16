@@ -92,3 +92,11 @@
     }
   }
 }
+
+@media only screen and (max-width: 900px) {
+  .modal {
+    height: 100vh;
+    width: 100vw;
+    max-width: auto;
+  }
+}
