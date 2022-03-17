@@ -3,12 +3,11 @@ import { useDispatch } from "react-redux";
 
 import { AuthContainer } from "components";
 import { setCurrentUser } from "action/user.action";
-import { showMaintainanceAlert } from "utils/general.utils";
-
-const passwordConditionCheck = (password) =>
-  password.length < 6 || password.length > 18;
-const userIdConditionCheck = (userId) =>
-  userId.length < 6 || userId.length > 25;
+import {
+  passwordConditionCheck,
+  showMaintainanceAlert,
+  userIdConditionCheck,
+} from "utils/general.utils";
 
 export default function SignIn() {
   const dispatch = useDispatch();

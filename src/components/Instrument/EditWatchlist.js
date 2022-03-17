@@ -1,38 +1,25 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-
-import { setModalType } from "action/uistate.action";
-import {
-  createWatchlist,
-  handleItemInTransaction,
-} from "action/watchlist.action";
-import { appConstants } from "utils/constants";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Modal } from "components";
+import { editWatchlist } from "action/watchlist.action";
+import { setModalType } from "action/uistate.action";
 
-export function CreateWatchlistButton() {
-  const dispatch = useDispatch();
-
-  return (
-    <div className="instruments-watchlist">
-      <button
-        className="instrument-button"
-        onClick={() => dispatch(setModalType(appConstants.WATCHLIST.label))}
-      >
-        Create Watchlist
-      </button>
-    </div>
+export default function EditWatchlist({ show }) {
+  const modalState = useSelector((state) => state.uistate.modalState);
+  const currentWatchlistName = useSelector(
+    (state) => state.watchlist.watchlist[modalState.id]?.name
   );
-}
 
-export default function CreateWatchlist({ show }) {
   const closeModal = () => {
     dispatch(setModalType(""));
   };
 
   const dispatch = useDispatch();
 
-  const [watchlistName, setWatchlistName] = useState("");
+  const [watchlistName, setWatchlistName] = useState(
+    currentWatchlistName || ""
+  );
   const [error, setError] = useState("");
   const handleWatchlistNameChange = (e) => {
     let name = e.target.value;
@@ -48,9 +35,9 @@ export default function CreateWatchlist({ show }) {
 
   const handleSubmit = () => {
     if (!watchlistName) return setError("No name specified!");
+    if (error) return;
 
-    dispatch(createWatchlist({ name: watchlistName, items: [] }));
-    dispatch(handleItemInTransaction({ created: true }));
+    dispatch(editWatchlist({ name: watchlistName, id: modalState.id }));
     closeModal();
   };
 
@@ -58,10 +45,10 @@ export default function CreateWatchlist({ show }) {
     <Modal
       show={show}
       close={closeModal}
-      submitButton={"Create"}
+      submitButton={"Save"}
       handleSubmit={handleSubmit}
       closeButton={"Close"}
-      title="Create Watchlist"
+      title="Edit Watchlist"
     >
       <div className="funds-wrapper">
         <input

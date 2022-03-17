@@ -13,3 +13,8 @@ export const setTransactionState = (transaction = {}) => ({
     previous: transaction.previous,
   },
 });
+
+export const setModalState = (modalState = {}) => ({
+  type: UistateTypes.SET_MODAL_STATE,
+  payload: modalState,
+});

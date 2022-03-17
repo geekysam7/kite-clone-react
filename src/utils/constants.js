@@ -5,6 +5,10 @@ export const appConstants = Object.freeze({
   },
   TRANSACTION: { label: "TRANSACTION", mapping: "Transaction" },
   FUNDS: { label: "FUNDS", mapping: "Funds" },
+  EDIT_WATCHLIST: {
+    label: "EDIT_WATCHLIST",
+    mapping: "Edit Watchlist",
+  },
 });
 
 //transaction.constants.js

@@ -7,7 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { Dashboard, Holding, Marketwatch, Orders } from "pages";
+import { Dashboard, Holding, Marketwatch, Orders, Profile } from "pages";
 
 export default function RightContainer() {
   const location = useLocation();
@@ -33,6 +33,7 @@ export default function RightContainer() {
       <Route path="/orders" element={<Orders />} />
       <Route path="/holdings" element={<Holding />} />
       <Route path="/funds" element={<Dashboard />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/*" element={<Navigate to="/notfound" />} />
     </Routes>
   );

@@ -43,3 +43,10 @@ export const deleteWatchlist = (watchlist) => {
     payload: watchlist,
   };
 };
+
+export const editWatchlist = (watchlist) => {
+  return {
+    type: WatchlistActionTypes.EDIT_WATCHLIST,
+    payload: watchlist, //id & name
+  };
+};

@@ -45,6 +45,9 @@ export const watchlistReducer = (state = INITIAL_STATE, { type, payload }) => {
         draft.watchlistByIds.push(payload.id);
         draft.selected = payload.id;
         break;
+      case WatchlistActionTypes.EDIT_WATCHLIST:
+        draft.watchlist[payload.id].name = payload.name;
+        break;
       case WatchlistActionTypes.ADD_ITEM:
         if (draft.selected !== 0) {
           let items = draft.watchlist[draft.selected].items;

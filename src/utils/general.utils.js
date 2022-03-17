@@ -66,6 +66,19 @@ const setTimeoutPromise = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
+const passwordConditionCheck = (password) =>
+  password.length < 6 || password.length > 18;
+const userIdConditionCheck = (userId) =>
+  userId.length < 6 || userId.length > 25;
+
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 export {
   floatParser,
   flattenArray,
@@ -76,4 +89,7 @@ export {
   showMaintainanceAlert,
   sortAlphabetically,
   setTimeoutPromise,
+  passwordConditionCheck,
+  userIdConditionCheck,
+  validateEmail,
 };

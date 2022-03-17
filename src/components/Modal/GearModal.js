@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faTrash } from "@fortawesome/fontawesome-free-solid";
+import { faTrash, faEdit } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Line } from "components";
 import { deleteWatchlist } from "action/watchlist.action";
 import { CreateWatchlistButton } from "components/Instrument/CreateWatchlist";
+import { setModalState, setModalType } from "action/uistate.action";
+import { appConstants } from "utils/constants";
 
 export default function GearModal() {
   const { watchlistByIds, watchlist } = useSelector((state) => state.watchlist);
@@ -32,14 +34,20 @@ export default function GearModal() {
               <div
                 className="watchlist-icon"
                 onClick={() => {
+                  dispatch(setModalType(appConstants.EDIT_WATCHLIST.label));
+                  dispatch(setModalState({ id }));
+                }}
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </div>
+              <div
+                className="watchlist-icon"
+                onClick={() => {
                   dispatch(deleteWatchlist(id));
                 }}
               >
                 <FontAwesomeIcon icon={faTrash} />
               </div>
-              {/* <div className="watchlist-icon">
-                <FontAwesomeIcon icon={faEdit} />
-              </div> */}
             </div>
           </li>
         ))}

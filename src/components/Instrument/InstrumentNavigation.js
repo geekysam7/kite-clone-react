@@ -10,6 +10,7 @@ import { GearModal } from "components";
 import { setSelectedWatchlist } from "action/watchlist.action";
 import { appConstants } from "utils/constants";
 import useClickOutside from "hooks/useClickOutside";
+import EditWatchlist from "./EditWatchlist";
 
 export default function InstrumentNavigation() {
   const { watchlistByIds, watchlist } = useSelector((state) => state.watchlist);
@@ -70,6 +71,9 @@ export default function InstrumentNavigation() {
 
       {modalTypeOpen === appConstants.WATCHLIST.label && (
         <CreateWatchlist show={true} />
+      )}
+      {modalTypeOpen === appConstants.EDIT_WATCHLIST.label && (
+        <EditWatchlist show={true} />
       )}
     </div>
   );
