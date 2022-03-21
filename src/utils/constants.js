@@ -9,6 +9,10 @@ export const appConstants = Object.freeze({
     label: "EDIT_WATCHLIST",
     mapping: "Edit Watchlist",
   },
+  INSTRUMENT: {
+    label: "INSTRUMENT",
+    mapping: "INSTRUMENT",
+  },
 });
 
 //transaction.constants.js

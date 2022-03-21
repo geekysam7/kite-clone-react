@@ -65,11 +65,7 @@
     }
 
     &:hover {
-      & .instruments-item--options,
-      & .buy-button,
-      & .sell-button {
-        display: flex;
-      }
+      cursor: pointer;
     }
 
     // &:nth-last-child(1) {
@@ -119,5 +115,16 @@
 
   &:active {
     opacity: 0.8;
+  }
+}
+
+@media only screen and (min-width: 901px) {
+  .instruments-item:hover {
+    cursor: default;
+
+    & .instruments-item--options,
+    & .buy-button & .sell-button {
+      display: flex;
+    }
   }
 }

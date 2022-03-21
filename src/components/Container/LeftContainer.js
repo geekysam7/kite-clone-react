@@ -17,10 +17,12 @@ import {
   handleItemInTransaction,
   removeSelectedWatchlistItem,
 } from "action/watchlist.action";
-import { transactionConstants } from "utils/constants";
+import { appConstants, transactionConstants } from "utils/constants";
+import MarketwatchModal from "components/Modal/MarketwatchModal";
 
 const Instrument = ({ item }) => {
   const { market } = useSelector((state) => state.market);
+  const modalTypeOpen = useSelector((state) => state.uistate.modalTypeOpen);
 
   //imitate a fetch request?
   let instrument = market[item];
@@ -32,75 +34,99 @@ const Instrument = ({ item }) => {
       : "text-red"
     : "";
 
-  const handleInstrumentDelete = (instrument) => {
+  const handleInstrumentDelete = () => {
     dispatch(removeSelectedWatchlistItem(instrument.id));
+  };
+
+  const handleInstrumentBuy = () => {
+    dispatch(
+      setTransactionState({
+        current: {
+          instrumentId: instrument.id,
+          type: transactionConstants.BUY.label,
+          ltP: instrument.ltP,
+          symbol: instrument.symbol,
+        },
+      })
+    );
+  };
+
+  const handleInstrumentSell = () => {
+    dispatch(
+      setTransactionState({
+        current: {
+          instrumentId: instrument.id,
+          type: transactionConstants.SELL.label,
+          ltP: instrument.ltP,
+          symbol: instrument.symbol,
+        },
+      })
+    );
   };
 
   return (
     <>
       {instrument ? (
-        <div className="instruments-item" data-symbol={instrument.symbol}>
-          <div className={`instruments-item--caption ${color}`}>
-            {instrument.symbol}
-          </div>
-          <div className="instruments-item--change">{instrument.per}</div>
-          <div className="change-percentage">%</div>
-          <div className={`instruments-item--arrow ${color}`}>
-            {instrument.per[0] === "-" ? (
-              <FontAwesomeIcon icon={faArrowDown} />
-            ) : (
-              <FontAwesomeIcon icon={faArrowUp} />
-            )}
-          </div>
-          <div className={`instruments-item--value ${color}`}>
-            {instrument.ltP}
-          </div>
+        <>
           <div
-            className="instruments-item--options"
+            className="instruments-item"
             data-symbol={instrument.symbol}
+            onClick={() => {
+              if (window.innerWidth <= 900) {
+                console.log("inner");
+                dispatch(setModalType(appConstants.INSTRUMENT.label));
+              }
+            }}
           >
-            <button
-              className="marketwatch-button marketwatch-button--buy"
-              onClick={() =>
-                dispatch(
-                  setTransactionState({
-                    current: {
-                      instrumentId: instrument.id,
-                      type: transactionConstants.BUY.label,
-                      ltP: instrument.ltP,
-                      symbol: instrument.symbol,
-                    },
-                  })
-                )
-              }
+            <div className={`instruments-item--caption ${color}`}>
+              {instrument.symbol}
+            </div>
+            <div className="instruments-item--change">{instrument.per}</div>
+            <div className="change-percentage">%</div>
+            <div className={`instruments-item--arrow ${color}`}>
+              {instrument.per[0] === "-" ? (
+                <FontAwesomeIcon icon={faArrowDown} />
+              ) : (
+                <FontAwesomeIcon icon={faArrowUp} />
+              )}
+            </div>
+            <div className={`instruments-item--value ${color}`}>
+              {instrument.ltP}
+            </div>
+            <div
+              className="instruments-item--options"
+              data-symbol={instrument.symbol}
             >
-              B
-            </button>
-            <button
-              className="marketwatch-button marketwatch-button--sell"
-              onClick={() =>
-                dispatch(
-                  setTransactionState({
-                    current: {
-                      instrumentId: instrument.id,
-                      type: transactionConstants.SELL.label,
-                      ltP: instrument.ltP,
-                      symbol: instrument.symbol,
-                    },
-                  })
-                )
-              }
-            >
-              S
-            </button>
-            <button
-              className="marketwatch-button marketwatch-button--delete"
-              onClick={() => handleInstrumentDelete(instrument)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
+              <button
+                className="marketwatch-button marketwatch-button--buy"
+                onClick={handleInstrumentBuy}
+              >
+                B
+              </button>
+              <button
+                className="marketwatch-button marketwatch-button--sell"
+                onClick={handleInstrumentSell}
+              >
+                S
+              </button>
+              <button
+                className="marketwatch-button marketwatch-button--delete"
+                onClick={handleInstrumentDelete}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </div>
           </div>
-        </div>
+          {modalTypeOpen === appConstants.INSTRUMENT.label && (
+            <MarketwatchModal
+              instrument={instrument}
+              close={() => dispatch(setModalType(""))}
+              handleInstrumentBuy={handleInstrumentBuy}
+              handleInstrumentDelete={handleInstrumentDelete}
+              handleInstrumentSell={handleInstrumentSell}
+            />
+          )}
+        </>
       ) : null}
     </>
   );

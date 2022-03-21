@@ -8,13 +8,17 @@ export default function PortfolioRow({ row: transaction }) {
   //imitate a api call
   const dispatch = useDispatch();
 
+  let current = (transaction.currentValue - transaction.total).toFixed(2) + "";
+
+  let currentTextColor = current.startsWith("-") ? "text-red" : "text-green";
+
   return (
     <>
       <td>{transaction.symbol}</td>
       <td>{transaction.quantity}</td>
       <td>{transaction.avgPrice}</td>
       <td>{transaction.total}</td>
-      <td>{transaction.currentValue}</td>
+      <td className={currentTextColor}>{current}</td>
       <td>
         <button
           className="marketwatch-button marketwatch-button--sell"

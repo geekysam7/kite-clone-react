@@ -97,18 +97,6 @@
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .transaction-window {
-    width: 100vw;
-    height: 100vh;
-    max-width: 600px;
-
-    &--buttons {
-      max-width: 600px;
-    }
-  }
-}
-
 .holding {
   display: flex;
   flex-direction: column;
